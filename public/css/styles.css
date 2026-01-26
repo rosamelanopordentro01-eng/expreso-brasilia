@@ -122,14 +122,6 @@ button {
     width: auto;
 }
 
-.slogan {
-    font-size: 11px;
-    color: white;
-    font-style: italic;
-    margin-top: 2px;
-    font-family: 'Source Sans Pro', sans-serif;
-}
-
 .hamburger {
     background: none;
     border: none;
@@ -284,12 +276,14 @@ button {
 }
 
 .hero h1 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 36px;
-    font-weight: 500;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    font-style: italic;
     color: white;
-    line-height: 1.1;
+    line-height: 1.2;
     margin: 0;
+    white-space: nowrap;
 }
 
 /* ========================================
@@ -1397,7 +1391,7 @@ button {
    ======================================== */
 @media (min-width: 768px) {
     .hero h1 {
-        font-size: 42px;
+        font-size: 36px;
     }
 
     .search-container {
@@ -1550,7 +1544,7 @@ button {
     }
 
     .hero h1 {
-        font-size: 48px;
+        font-size: 42px;
     }
 
     .search-container {
