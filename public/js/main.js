@@ -179,6 +179,24 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
+        // Flechas de navegación
+        const prevBtn = carousel.querySelector('.carousel-prev');
+        const nextBtn = carousel.querySelector('.carousel-next');
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                startAutoplay();
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                startAutoplay();
+            });
+        }
+
         // Iniciar autoplay
         startAutoplay();
     }
