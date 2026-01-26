@@ -73,24 +73,19 @@ button {
 
 /* ========================================
    WRAPPER CON GRADIENTE AZUL
-   Cubre desde el header hasta el formulario
+   Cubre desde el header hasta antes del carrusel
    ======================================== */
 .blue-gradient-wrapper {
-    background-color: #00529C;
+    background: linear-gradient(
+        180deg,
+        #00529C 0%,
+        #00529C 30%,
+        #003d73 60%,
+        #232323 90%,
+        #232323 100%
+    );
     position: relative;
-    padding-bottom: 20px;
-}
-
-.blue-gradient-wrapper::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(184deg, rgba(0, 82, 156, 0) 15%, rgb(35, 35, 35) 100%);
-    pointer-events: none;
-    z-index: 0;
+    padding-bottom: 40px;
 }
 
 .blue-gradient-wrapper > * {
@@ -687,6 +682,7 @@ button {
    ======================================== */
 .carousel-section {
     padding: 20px 15px;
+    background-color: #232323;
 }
 
 .carousel {
