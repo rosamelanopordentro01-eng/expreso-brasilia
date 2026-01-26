@@ -276,14 +276,15 @@ button {
 }
 
 .hero h1 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 28px;
-    font-weight: 400;
-    font-style: italic;
-    color: white;
-    line-height: 1.2;
+    font-family: 'Oswald', Helvetica, Arial, sans-serif;
+    font-size: 32px;
+    font-weight: 500;
+    font-style: normal;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 32px;
     margin: 0;
-    white-space: nowrap;
+    white-space: normal;
 }
 
 /* ========================================
@@ -1391,7 +1392,8 @@ button {
    ======================================== */
 @media (min-width: 768px) {
     .hero h1 {
-        font-size: 36px;
+        font-size: 38px;
+        line-height: 38px;
     }
 
     .search-container {
@@ -1544,7 +1546,8 @@ button {
     }
 
     .hero h1 {
-        font-size: 42px;
+        font-size: 44px;
+        line-height: 44px;
     }
 
     .search-container {
