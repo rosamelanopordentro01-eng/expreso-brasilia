@@ -275,16 +275,21 @@ button {
     text-align: center;
 }
 
-.hero h1 {
-    font-family: 'Oswald', Helvetica, Arial, sans-serif;
-    font-size: 32px;
-    font-weight: 500;
+.hero-title {
+    font-family: Oswald, Helvetica, Arial, Lucida, sans-serif;
+    font-size: 26px;
+    font-weight: 700;
     font-style: normal;
     color: #FFFFFF;
     text-align: center;
-    line-height: 32px;
+    line-height: 26px;
     margin: 0;
     white-space: normal;
+    word-wrap: break-word;
+}
+
+.hero-title b {
+    font-weight: 700;
 }
 
 /* ========================================
@@ -1391,9 +1396,9 @@ button {
    RESPONSIVE - TABLET (768px+)
    ======================================== */
 @media (min-width: 768px) {
-    .hero h1 {
-        font-size: 38px;
-        line-height: 38px;
+    .hero-title {
+        font-size: 32px;
+        line-height: 32px;
     }
 
     .search-container {
@@ -1545,9 +1550,9 @@ button {
         padding: 40px 20px 80px;
     }
 
-    .hero h1 {
-        font-size: 44px;
-        line-height: 44px;
+    .hero-title {
+        font-size: 38px;
+        line-height: 38px;
     }
 
     .search-container {
