@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Expreso Brasilia - Viajando con tus sueños. Compra tus pasajes de bus en línea.">
+    <title>Expreso Brasilia - Viajando con tus sueños</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Oswald:wght@300;400;500;700&family=Playfair+Display:ital@0;1&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Wrapper con gradiente azul -->
+    <div class="blue-gradient-wrapper">
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <a href="/" class="logo-container">
+            <img src="https://static.expresobrasilia.com/wp-content/uploads/2024/09/brasilia_nuevo_logo.png" alt="Expreso Brasilia">
+            <span class="slogan">Viajando con tus sueños</span>
+        </a>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Sidebar Menu -->
+    <nav class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-header">
+            <button class="close-menu" id="closeMenuBtn" aria-label="Cerrar menú">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="menu-list">
+            <li><a href="#">Inicio</a></li>
+            <li class="has-submenu">
+                <a href="#" class="submenu-toggle">Ofertas y Servicios <i class="fas fa-chevron-down"></i></a>
+                <ul class="submenu">
+                    <li><a href="#">Promociones</a></li>
+                    <li><a href="#">Pasajes</a></li>
+                    <li><a href="#">Servicio Especial</a></li>
+                    <li><a href="#">Brasilia Carga</a></li>
+                    <li><a href="#">Publicidad Clientes</a></li>
+                    <li><a href="#">Brasilia Play</a></li>
+                    <li class="has-submenu">
+                        <a href="#" class="submenu-toggle">Servicio Institucional <i class="fas fa-chevron-down"></i></a>
+                        <ul class="submenu">
+                            <li><a href="#">Cliente Corporativo</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Afiliados</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Viajero Gaviota</a></li>
+            <li><a href="#">Blog</a></li>
+            <li class="has-submenu">
+                <a href="#" class="submenu-toggle">Contáctenos <i class="fas fa-chevron-down"></i></a>
+                <ul class="submenu">
+                    <li><a href="#">Políticas de viaje</a></li>
+                    <li><a href="#">Preguntas Frecuentes</a></li>
+                    <li><a href="#">Directorio</a></li>
+                    <li><a href="#">Factura electrónica</a></li>
+                </ul>
+            </li>
+            <li><a href="#">PQRS</a></li>
+            <li class="login-item">
+                <a href="#"><i class="fas fa-user"></i> Iniciar sesión</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Viajamos<br>con tus<br>sueños.</h1>
+        </section>
+
+        <!-- Search Form -->
+        <div class="search-container">
+            <form class="search-form" id="searchForm">
+
+                <!-- RECUADRO 1: Origen y Destino - Grid de 3 columnas -->
+                <div class="layout-grid-routes">
+                    <!-- Columna izquierda: Campos de Origen y Destino -->
+                    <div class="routes-fields">
+                        <!-- ORIGEN -->
+                        <div class="route-field">
+                            <label class="route-label">Origen</label>
+                            <div class="route-input-row">
+                                <svg class="route-icon" viewBox="0 0 15 16" width="15" height="16">
+                                    <path fill="#DC291E" d="M7.5 0C3.36 0 0 3.36 0 7.5c0 5.25 7.5 8.5 7.5 8.5s7.5-3.25 7.5-8.5C15 3.36 11.64 0 7.5 0zm0 10.5c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+                                </svg>
+                                <input type="text" id="origen" placeholder="Buscar Origen" autocomplete="off" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Línea separadora horizontal -->
+                        <div class="route-divider"></div>
+
+                        <!-- DESTINO -->
+                        <div class="route-field">
+                            <label class="route-label">Destino</label>
+                            <div class="route-input-row">
+                                <svg class="route-icon route-icon--outline" viewBox="0 0 15 16" width="15" height="16">
+                                    <path fill="none" stroke="#999" stroke-width="1.5" d="M7.5 1C3.91 1 1 3.91 1 7.5c0 4.69 6.5 7.5 6.5 7.5s6.5-2.81 6.5-7.5C14 3.91 11.09 1 7.5 1z"/>
+                                    <circle fill="none" stroke="#999" stroke-width="1.5" cx="7.5" cy="7.5" r="2.5"/>
+                                </svg>
+                                <input type="text" id="destino" placeholder="Buscar Destino" autocomplete="off" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna derecha: Botón de intercambio con líneas punteadas -->
+                    <div class="swap-column">
+                        <button class="reverse-routes" id="swapBtn" type="button" aria-label="Intercambiar">
+                            <svg viewBox="0 0 24 24" width="18" height="18">
+                                <path fill="#D22730" d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RECUADRO 2: Fechas - UN SOLO CARD con DOS ESTADOS -->
+                <div class="date-card" id="dateCard">
+                    <!-- ESTADO INICIAL: Label arriba, botones abajo alineados a la izquierda -->
+                    <label class="date-label">¿Cuándo viajas?</label>
+                    <div class="date-buttons">
+                        <button type="button" class="date-btn active" data-date="today">Hoy</button>
+                        <button type="button" class="date-btn" data-date="tomorrow">Mañana</button>
+                        <button type="button" class="date-btn" data-date="calendar">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            Elegir
+                        </button>
+                    </div>
+
+                    <!-- ESTADO CON FECHA: Ida y Regreso (visible solo cuando .has-date) -->
+                    <div class="date-selected-state">
+                        <!-- Sección Ida -->
+                        <div class="date-field ida">
+                            <label class="date-field-label">Ida</label>
+                            <div class="date-value-container">
+                                <input type="text" class="departureDate" id="fechaIda" value="" readonly>
+                                <button class="clean-date-btn" type="button" id="clearDepartureDate">
+                                    <svg width="18" height="18" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="45" fill="#999"/>
+                                        <line x1="35" y1="35" x2="65" y2="65" stroke="white" stroke-width="8"/>
+                                        <line x1="65" y1="35" x2="35" y2="65" stroke="white" stroke-width="8"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Separador vertical -->
+                        <div class="date-separator"></div>
+
+                        <!-- Sección Regreso -->
+                        <div class="date-field regreso">
+                            <label class="date-field-label">Regreso</label>
+                            <div class="date-value-container">
+                                <input type="text" class="returnDate" id="fechaRegreso" placeholder="Opcional" readonly>
+                                <svg class="dropdown-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOTÓN BUSCAR -->
+                <button type="submit" class="search-btn">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="#FFFFFF">
+                        <path d="M19.47 18.53l-4.76-4.76a8.47 8.47 0 10-1.41 1.41l4.76 4.76a1 1 0 001.41-1.41zM3 8.5a5.5 5.5 0 1111 0 5.5 5.5 0 01-11 0z"/>
+                    </svg>
+                    Buscar
+                </button>
+            </form>
+        </div>
+
+    </div><!-- Fin blue-gradient-wrapper -->
+
+        <!-- Carousel/Slider -->
+        <section class="carousel-section">
+            <div class="carousel" id="carousel">
+                <div class="carousel-slides">
+                    <div class="carousel-slide active" style="background-image: url('https://static.expresobrasilia.com/wp-content/uploads/2024/06/banner-2-1.jpg')">
+                        <h2>Comienza tu<br>aventura con<br>nosotros.</h2>
+                    </div>
+                    <div class="carousel-slide" style="background-image: url('https://static.expresobrasilia.com/wp-content/uploads/2024/06/banner-3-2.jpg')">
+                        <h2>Viajar está<br>a un clic de<br>distancia.</h2>
+                    </div>
+                    <div class="carousel-slide" style="background-image: url('https://static.expresobrasilia.com/wp-content/uploads/2024/06/banner-4-1.jpg')">
+                        <h2>El transporte<br>de los<br>líderes.</h2>
+                    </div>
+                    <div class="carousel-slide" style="background-image: url('https://static.expresobrasilia.com/wp-content/uploads/2024/06/banner-2-1.jpg')">
+                        <h2>Disfruta de la<br>comodidad en<br>cada kilómetro.</h2>
+                    </div>
+                </div>
+                <div class="carousel-dots">
+                    <span class="dot active" data-index="0"></span>
+                    <span class="dot" data-index="1"></span>
+                    <span class="dot" data-index="2"></span>
+                    <span class="dot" data-index="3"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Banner Alert -->
+        <section class="banner-section">
+            <img src="https://static.expresobrasilia.com/wp-content/uploads/2025/05/banner.png" alt="Banner promocional" class="banner-img" loading="lazy">
+        </section>
+
+        <!-- Destinos Populares -->
+        <section class="destinations">
+            <div class="section-header">
+                <span class="badge">• LO MEJOR DE COLOMBIA</span>
+                <h2>Destinos más populares</h2>
+            </div>
+            <div class="destinations-list">
+                <div class="destination-card" style="background-image: url('https://static.expresobrasilia.com/wp-content/uploads/2021/04/Valledupar-500x500-1.jpg')">
+                    <div class="card-content">
+                        <h3>Valledupar</h3>
+                        <p class="from">Saliendo de Barranquilla</p>
+                        <p class="price">$64,000 <span>COP</span></p>
+                        <a href="#" class="btn-schedule">Ver horarios</a>
+                    </div>
+                </div>
+                <div class="destination-card" style="background-image: url('https://static.expresobrasilia.com/wp-content/uploads/2024/01/Brasilia-500x500_1.jpg')">
+                    <div class="card-content">
+                        <h3>Cartagena</h3>
+                        <p class="from">Saliendo de Montería</p>
+                        <p class="price">$100,000 <span>COP</span></p>
+                        <a href="#" class="btn-schedule">Ver horarios</a>
+                    </div>
+                </div>
+                <div class="destination-card" style="background-image: url('https://static.expresobrasilia.com/wp-content/uploads/2021/04/Monteria-500x500-1.jpg')">
+                    <div class="card-content">
+                        <h3>Barranquilla</h3>
+                        <p class="from">Saliendo de Montería</p>
+                        <p class="price">$80,000 <span>COP</span></p>
+                        <a href="#" class="btn-schedule">Ver horarios</a>
+                    </div>
+                </div>
+                <div class="destination-card" style="background-image: url('https://static.expresobrasilia.com/wp-content/uploads/2021/04/Medellin-500x500-1.jpg')">
+                    <div class="card-content">
+                        <h3>Medellín</h3>
+                        <p class="from">Saliendo de Montería</p>
+                        <p class="price">$140,000 <span>COP</span></p>
+                        <a href="#" class="btn-schedule">Ver horarios</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nuestros Servicios -->
+        <section class="services-section">
+            <h2>Nuestros Servicios</h2>
+            <div class="services-grid">
+                <a href="#" class="service-item">
+                    <img src="https://static.expresobrasilia.com/wp-content/uploads/2024/09/logo-white-300x83-1.png" alt="Expreso Brasilia" loading="lazy">
+                </a>
+                <a href="#" class="service-item">
+                    <img src="https://static.expresobrasilia.com/wp-content/uploads/2020/09/logo-brasilia-carga.png" alt="Brasilia Carga" loading="lazy">
+                </a>
+                <a href="#" class="service-item">
+                    <img src="https://static.expresobrasilia.com/wp-content/uploads/2020/09/logo-servicio-especial.png" alt="Servicio Especial" loading="lazy">
+                </a>
+                <a href="#" class="service-item">
+                    <img src="https://static.expresobrasilia.com/wp-content/uploads/2020/09/logo-brasilia-play.png" alt="Brasilia Play" loading="lazy">
+                </a>
+                <a href="#" class="service-item full-width">
+                    <img src="https://static.expresobrasilia.com/wp-content/uploads/2020/12/logo-fundacion.png" alt="Fundación Brasilia" loading="lazy">
+                </a>
+            </div>
+        </section>
+
+        <!-- Novedades -->
+        <section class="news-section">
+            <h2 class="section-title-red">Novedades</h2>
+            <div class="news-grid">
+                <article class="news-card">
+                    <div class="news-image">
+                        <img src="https://static.expresobrasilia.com/wp-content/uploads/2025/12/imagen-1-400x250.jpg" alt="Top 10 mejores lugares para trabajar" loading="lazy">
+                    </div>
+                    <div class="news-content">
+                        <h3>¡ESTAMOS EN EL TOP 10 DE LOS MEJORES LUGARES PARA TRABAJAR EN COLOMBIA!</h3>
+                        <a href="#" class="news-link">Leer más <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <div class="news-image">
+                        <img src="https://static.expresobrasilia.com/wp-content/uploads/2024/06/banner-2-1.jpg" alt="Noticia Brasilia" loading="lazy">
+                    </div>
+                    <div class="news-content">
+                        <h3>Conoce nuestras nuevas rutas y destinos para este año</h3>
+                        <a href="#" class="news-link">Leer más <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+                <article class="news-card">
+                    <div class="news-image">
+                        <img src="https://static.expresobrasilia.com/wp-content/uploads/2024/06/banner-3-2.jpg" alt="Noticia Brasilia" loading="lazy">
+                    </div>
+                    <div class="news-content">
+                        <h3>Viaja seguro con los mejores protocolos de bioseguridad</h3>
+                        <a href="#" class="news-link">Leer más <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <h3 class="footer-title">Línea amable</h3>
+
+        <div class="phone-items">
+            <a href="tel:018000518001" class="phone-item">
+                <i class="fas fa-phone-alt"></i>
+                <div>
+                    <span class="number">018000518001</span>
+                    <span class="type">Teléfonos fijos</span>
+                </div>
+            </a>
+            <a href="tel:+573205020000" class="phone-item whatsapp">
+                <i class="fab fa-whatsapp"></i>
+                <div>
+                    <span class="number">+573205020000</span>
+                    <span class="type">Whatsapp</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="footer-logo">
+            <img src="https://static.expresobrasilia.com/wp-content/uploads/2024/06/logo_brasilia_blanco.png" alt="Expreso Brasilia" loading="lazy">
+        </div>
+
+        <div class="powered-section">
+            <span>Powered by</span>
+            <span class="reservamos-brand">Reservamos</span>
+        </div>
+
+        <div class="social-icons">
+            <a href="https://web.facebook.com/ExpresoBrasiliaOficial" class="social-icon" target="_blank" rel="noopener" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://twitter.com/expresbrasilia" class="social-icon" target="_blank" rel="noopener" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://www.instagram.com/expresobrasilia/" class="social-icon" target="_blank" rel="noopener" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.youtube.com/user/Expresobrasilia" class="social-icon" target="_blank" rel="noopener" aria-label="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://wa.link/5dazsd" class="social-icon" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+
+        <nav class="footer-nav">
+            <a href="#">Inicio</a>
+            <a href="#">Nosotros</a>
+            <a href="#">Fundación</a>
+            <a href="#" class="has-arrow">Información Corporativa <i class="fas fa-chevron-down"></i></a>
+            <a href="#">Contratos de Servicios</a>
+            <a href="#">Supertransporte</a>
+        </nav>
+
+        <p class="footer-copyright">
+            Expreso Brasilia S.A. Colombia. © 2020-Hoy / powered by Reservamos. Todos los derechos reservados.
+        </p>
+    </footer>
+
+    <!-- Contact Bar Fixed -->
+    <div class="contact-bar" id="contactBar">
+        <i class="fas fa-headset"></i>
+        <span>Contacta con nosotros</span>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="contact-modal" id="contactModal">
+        <div class="contact-modal-content">
+            <div class="contact-modal-header">
+                <h3>Contáctanos</h3>
+                <button class="close-modal" id="closeModalBtn" aria-label="Cerrar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="contact-modal-body">
+                <p>¿En qué podemos ayudarte?</p>
+                <div class="contact-options">
+                    <a href="tel:018000518001" class="contact-option">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>Llamar</span>
+                    </a>
+                    <a href="https://wa.link/5dazsd" class="contact-option" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    <a href="mailto:info@expresobrasilia.com" class="contact-option">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Selección de Ciudad - Réplica IDÉNTICA de expresobrasilia.com -->
+    <div class="modal-overlay" id="cityModalOverlay"></div>
+    <div class="origin-modal" id="cityModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="cityModalTitle">Elige tu origen</h2>
+                <button class="modal-close" id="closeCityModal">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><g stroke="#DC291E" stroke-width="1.4" stroke-linecap="square"><path d="M13.5 0.5L0.5 13.5"/><path d="M0.5 0.5L13.5 13.5"/></g></svg>
+                </button>
+            </div>
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <label class="input-label" id="citySearchLabel">Origen</label>
+                    <div class="input-row">
+                        <span class="location-icon">
+                            <svg width="15" height="16" viewBox="0 0 15 16" fill="#DC291E"><path d="M7.5 0C3.36 0 0 3.36 0 7.5c0 5.25 7.5 8.5 7.5 8.5s7.5-3.25 7.5-8.5C15 3.36 11.64 0 7.5 0zm0 10.5c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/></svg>
+                        </span>
+                        <input type="text" class="search-input" id="citySearchInput" placeholder="Buscar Origen">
+                    </div>
+                </div>
+                <button class="search-btn" type="button">
+                    <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="15" fill="#DC291E" fill-opacity="0.1"/><path fill="#DC291E" d="M19.47 18.53l-2.76-2.76a4.96 4.96 0 10-1.41 1.41l2.76 2.76a1 1 0 001.41-1.41zM11 14a3 3 0 116 0 3 3 0 01-6 0z" transform="translate(3,3)"/></svg>
+                </button>
+            </div>
+
+            <!-- Recuadro de Sugerencias - Solo visible en modal de destino -->
+            <div class="recommended-routes" id="recommendedRoutes" style="display: none;">
+                <div class="recommended-routes-header">
+                    <div class="recommended-routes-title">
+                        <svg class="fire-icon" width="25" height="25" viewBox="0 0 24 24" fill="#FF040D">
+                            <path d="M12 23c-3.866 0-7-3.134-7-7 0-2.551 1.299-4.889 3.145-6.695.382-.374.967-.063.967.474 0 1.932 1.333 3.317 2.39 4.158.175.14.427.032.475-.187.39-1.786 1.156-4.273 2.523-6.375.214-.33.693-.26.818.108.876 2.583 2.682 4.593 2.682 8.517 0 3.866-3.134 7-7 7z"/>
+                        </svg>
+                        <span>Populares desde tu origen</span>
+                    </div>
+                    <div class="badge-recommended">
+                        <span class="badge-recommended-text">PARA TI</span>
+                        <svg class="sparkle-icon" width="17" height="12" viewBox="0 0 17 12">
+                            <defs>
+                                <linearGradient id="sparkleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FF7171"/>
+                                    <stop offset="100%" style="stop-color:#CF0000"/>
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#sparkleGradient)" d="M8.5 0L10 4H14L11 7L12 11L8.5 8.5L5 11L6 7L3 4H7L8.5 0Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="recommended-routes-list" id="recommendedRoutesList">
+                    <!-- Las rutas sugeridas se cargarán dinámicamente -->
+                </div>
+            </div>
+
+            <ul class="city-list" id="cityList">
+                <li class="city-loading">Cargando ciudades...</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Calendario de Selección de Fecha - Réplica de expresobrasilia.com -->
+    <div class="picker" id="datePicker" style="display: none;">
+        <div class="picker__holder">
+            <div class="picker__frame">
+                <div class="picker__box">
+                    <div class="picker__title">Elige tu fecha de ida</div>
+                    <div class="picker__header">
+                        <button class="picker__nav--prev" id="pickerPrev" type="button">
+                            <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
+                                <path d="M7 1L1 7L7 13" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                        <div class="picker__month-year">
+                            <span class="picker__month" id="pickerMonth">Enero</span>
+                            <span class="picker__year" id="pickerYear">2026</span>
+                        </div>
+                        <button class="picker__nav--next" id="pickerNext" type="button">
+                            <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
+                                <path d="M1 1L7 7L1 13" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <table class="picker__table">
+                        <thead>
+                            <tr>
+                                <th class="picker__weekday">Lun</th>
+                                <th class="picker__weekday">Mar</th>
+                                <th class="picker__weekday">Mié</th>
+                                <th class="picker__weekday">Jue</th>
+                                <th class="picker__weekday">Vie</th>
+                                <th class="picker__weekday">Sáb</th>
+                                <th class="picker__weekday">Dom</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pickerDays">
+                            <!-- Los días se generarán dinámicamente -->
+                        </tbody>
+                    </table>
+                    <div class="picker__footer">
+                        <button class="picker__button--today" id="pickerToday" type="button">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                                <path d="M6 12L0 6H4V0H8V6H12L6 12Z"/>
+                            </svg>
+                            Hoy
+                        </button>
+                        <button class="picker__button--close" id="pickerClose" type="button">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>
