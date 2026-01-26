@@ -868,19 +868,6 @@ button {
     }
 }
 
-/* ========================================
-   3. IMAGEN PROMOCIONAL
-   ======================================== */
-.promo-image-section {
-    padding: 20px 15px;
-    background-color: #f5f5f5;
-}
-
-.promo-image {
-    width: 100%;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
 
 /* ========================================
    DESTINATIONS - CORREGIDO FINAL
