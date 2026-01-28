@@ -4,7 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pago - Expreso Brasilia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* Colores Primarios */
+            --brasilia-blue-primary: #00529c;
+            --brasilia-blue-dark: #00347c;
+            --brasilia-blue-overlay: rgba(0, 82, 156, 0.84);
+
+            /* Colores de Acento (Botones CTA) */
+            --brasilia-red-primary: #d22730;
+            --brasilia-red-hover: #bf0811;
+            --brasilia-red-text: #cf282f;
+
+            /* Neutros */
+            --brasilia-white: #ffffff;
+            --brasilia-gray-bg: #ededed;
+            --brasilia-gray-light: #fafafa;
+            --brasilia-gray-border: #cccccc;
+            --brasilia-text-dark: #232323;
+            --brasilia-text-secondary: #686868;
+
+            /* Sombras */
+            --shadow-card: rgba(0, 0, 0, 0.1) 0px 2px 5px 0px;
+            --shadow-elevated: rgba(0, 0, 0, 0.3) 0px 5px 10px 0px;
+            --shadow-soft: rgba(0, 0, 0, 0.15) 0px 0px 30px 0px;
+
+            /* Border Radius */
+            --radius-small: 4px;
+            --radius-medium: 10px;
+            --radius-large: 15px;
+            --radius-pill: 20px;
+            --radius-circle: 50%;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -12,17 +47,18 @@
         }
 
         body {
-            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+            background-color: var(--brasilia-gray-light);
             min-height: 100vh;
-            padding-bottom: 200px;
+            padding-bottom: 180px;
+            color: var(--brasilia-text-dark);
         }
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, #00529c 0%, #003d75 100%);
+            background: linear-gradient(135deg, var(--brasilia-blue-primary) 0%, var(--brasilia-blue-dark) 100%);
             color: white;
-            padding: 16px;
+            padding: 12px 16px;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -32,34 +68,65 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-right: 8px;
+        }
+
+        .logo svg {
+            height: 32px;
+        }
+
+        .logo .tagline {
+            font-size: 9px;
+            opacity: 0.8;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
 
         .back-btn {
-            background: none;
+            background: rgba(255,255,255,0.1);
             border: none;
             color: white;
-            font-size: 24px;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-circle);
             cursor: pointer;
-            padding: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .header-info {
+            flex: 1;
         }
 
         .header-info h1 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
         }
 
         .header-info p {
-            font-size: 13px;
-            opacity: 0.9;
+            font-size: 12px;
+            opacity: 0.85;
+            font-weight: 400;
         }
 
         /* Timer */
         .timer-bar {
-            background: #e6e6e6;
-            padding: 8px 16px;
+            background: var(--brasilia-gray-bg);
+            padding: 10px 16px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -67,30 +134,36 @@
         }
 
         .timer-text {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
-            color: #333;
+            color: var(--brasilia-text-dark);
         }
 
         .timer-countdown {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
-            color: #00529c;
+            color: var(--brasilia-blue-primary);
         }
 
         .timer-countdown.urgent {
-            color: #BF0811;
+            color: var(--brasilia-red-primary);
+            animation: pulse 1s infinite;
         }
 
-        /* Progress Steps */
-        .progress-steps {
-            background: white;
-            padding: 20px 16px;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Stepper */
+        .stepper {
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 16px;
+            background: white;
             gap: 8px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--brasilia-gray-bg);
         }
 
         .step {
@@ -102,54 +175,60 @@
         }
 
         .step-circle {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-circle);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: 700;
             font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 6px;
+            transition: all 0.3s ease;
         }
 
         .step.completed .step-circle {
-            background: #00529c;
+            background: #27ae60;
             color: white;
         }
 
         .step.active .step-circle {
-            background: #00529c;
+            background: var(--brasilia-blue-primary);
             color: white;
             box-shadow: 0 0 0 4px rgba(0, 82, 156, 0.2);
         }
 
         .step.pending .step-circle {
-            background: #e0e0e0;
-            color: #999;
+            background: var(--brasilia-gray-border);
+            color: var(--brasilia-text-secondary);
         }
 
         .step-label {
             font-size: 11px;
-            color: #666;
-            text-align: center;
+            margin-top: 6px;
+            color: var(--brasilia-text-secondary);
+            font-weight: 500;
         }
 
-        .step.active .step-label,
-        .step.completed .step-label {
-            color: #00529c;
+        .step.active .step-label {
+            color: var(--brasilia-blue-primary);
             font-weight: 600;
         }
 
+        .step.completed .step-label {
+            color: #27ae60;
+        }
+
         .step-connector {
-            width: 40px;
-            height: 2px;
-            background: #e0e0e0;
+            height: 3px;
+            flex: 1;
+            max-width: 30px;
+            background: var(--brasilia-gray-border);
+            border-radius: 2px;
             margin-bottom: 20px;
         }
 
         .step-connector.completed {
-            background: #00529c;
+            background: #27ae60;
         }
 
         /* Main Content */
@@ -162,75 +241,100 @@
         .section-title {
             font-size: 18px;
             font-weight: 700;
-            color: #333;
+            color: var(--brasilia-text-dark);
             margin-bottom: 16px;
+        }
+
+        /* Help Banner */
+        .help-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #e8f4fc;
+            border-radius: var(--radius-medium);
+            margin-bottom: 16px;
+            border: 1px solid #cce5f6;
+        }
+
+        .help-banner svg {
+            flex-shrink: 0;
+        }
+
+        .help-text {
+            display: flex;
+            flex-direction: column;
+            font-size: 13px;
+        }
+
+        .help-text span {
+            color: var(--brasilia-text-secondary);
+        }
+
+        .help-text a {
+            color: var(--brasilia-blue-primary);
+            font-weight: 600;
+            text-decoration: none;
         }
 
         /* Payment Methods */
         .payment-methods {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
-        .payment-method {
+        .payment-option {
             display: flex;
             align-items: center;
-            padding: 16px;
-            border-bottom: 1px solid #eee;
+            padding: 16px 20px;
+            border: 2px solid var(--brasilia-gray-border);
+            border-radius: var(--radius-medium);
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
+            background: white;
+            margin-bottom: 12px;
+            opacity: 0;
+            animation: slideUp 0.4s ease forwards;
         }
 
-        .payment-method:last-child {
-            border-bottom: none;
+        .payment-option:nth-child(1) { animation-delay: 0.1s; }
+        .payment-option:nth-child(2) { animation-delay: 0.2s; }
+        .payment-option:nth-child(3) { animation-delay: 0.3s; }
+        .payment-option:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .payment-method:hover {
-            background: #f8f9fa;
+        .payment-option:hover {
+            border-color: var(--brasilia-blue-primary);
+            box-shadow: var(--shadow-card);
         }
 
-        .payment-method.selected {
-            background: #f0f7ff;
-            border-left: 3px solid #00529c;
+        .payment-option.selected {
+            border-color: var(--brasilia-blue-primary);
+            background: linear-gradient(135deg, rgba(0, 82, 156, 0.05) 0%, rgba(0, 82, 156, 0.02) 100%);
         }
 
-        .payment-radio {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ccc;
-            border-radius: 50%;
-            margin-right: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .payment-method.selected .payment-radio {
-            border-color: #00529c;
-        }
-
-        .payment-method.selected .payment-radio::after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            background: #00529c;
-            border-radius: 50%;
+        .payment-option input[type="radio"] {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--brasilia-blue-primary);
+            margin-right: 16px;
+            cursor: pointer;
         }
 
         .payment-icon {
-            width: 40px;
-            height: 40px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            font-size: 20px;
+            width: 48px;
+            height: 32px;
+            margin-right: 16px;
+            flex-shrink: 0;
         }
 
         .payment-info {
@@ -240,26 +344,27 @@
         .payment-name {
             font-size: 15px;
             font-weight: 600;
-            color: #333;
+            color: var(--brasilia-text-dark);
         }
 
         .payment-desc {
             font-size: 13px;
-            color: #666;
+            color: var(--brasilia-text-secondary);
         }
 
         /* Card Form */
         .card-form {
             background: white;
-            border-radius: 12px;
+            border-radius: var(--radius-medium);
             padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 16px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 20px;
             display: none;
         }
 
         .card-form.visible {
             display: block;
+            animation: slideUp 0.3s ease;
         }
 
         .form-group {
@@ -270,23 +375,35 @@
             display: block;
             font-size: 13px;
             font-weight: 600;
-            color: #666;
+            color: var(--brasilia-text-dark);
             margin-bottom: 6px;
         }
 
-        .form-group input {
+        .form-group input,
+        .form-group select {
             width: 100%;
-            height: 50px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 0 14px;
+            padding: 14px 16px;
+            border: 2px solid var(--brasilia-gray-border);
+            border-radius: var(--radius-small);
             font-size: 16px;
-            transition: border-color 0.2s;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            background: white;
         }
 
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
-            border-color: #00529c;
+            border-color: var(--brasilia-blue-primary);
+            box-shadow: 0 0 0 3px rgba(0, 82, 156, 0.1);
+        }
+
+        .form-group input.valid {
+            border-color: #27ae60;
+        }
+
+        .form-group input.invalid {
+            border-color: #e74c3c;
         }
 
         .form-row {
@@ -298,103 +415,152 @@
             flex: 1;
         }
 
-        .card-icons {
+        .card-input-wrapper {
+            position: relative;
+        }
+
+        .card-input-wrapper input {
+            padding-right: 100px;
+        }
+
+        .card-brands {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
-            gap: 8px;
-            margin-top: 8px;
+            gap: 4px;
         }
 
-        .card-icons img {
-            height: 24px;
-        }
-
-        .card-icons span {
-            background: #f5f5f5;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
+        .card-brands span {
+            font-size: 10px;
+            padding: 2px 6px;
+            background: var(--brasilia-gray-bg);
+            border-radius: 3px;
+            color: var(--brasilia-text-secondary);
             font-weight: 600;
-            color: #666;
+            opacity: 0.5;
+            transition: opacity 0.2s;
         }
 
-        /* Order Summary */
-        .order-summary {
+        .card-brands span.active {
+            opacity: 1;
+            background: var(--brasilia-blue-primary);
+            color: white;
+        }
+
+        /* PSE Form */
+        .pse-form {
             background: white;
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 16px;
+            border-radius: var(--radius-medium);
+            padding: 20px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .pse-form.visible {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background: white;
+            border-radius: var(--radius-medium);
+            padding: 20px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 20px;
         }
 
         .summary-title {
             font-size: 16px;
             font-weight: 700;
-            color: #333;
-            margin-bottom: 12px;
+            color: var(--brasilia-text-dark);
+            margin-bottom: 16px;
             padding-bottom: 12px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 2px solid var(--brasilia-gray-bg);
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            padding: 8px 0;
             font-size: 14px;
         }
 
         .summary-row .label {
-            color: #666;
+            color: var(--brasilia-text-secondary);
         }
 
         .summary-row .value {
-            color: #333;
             font-weight: 500;
+            color: var(--brasilia-text-dark);
         }
 
         .summary-row.discount .value {
-            color: #28a745;
+            color: #27ae60;
         }
 
         .summary-row.total {
             margin-top: 12px;
             padding-top: 12px;
-            border-top: 1px solid #eee;
+            border-top: 2px solid var(--brasilia-gray-bg);
         }
 
         .summary-row.total .label {
+            font-weight: 700;
+            color: var(--brasilia-text-dark);
             font-size: 16px;
-            font-weight: 600;
-            color: #333;
         }
 
         .summary-row.total .value {
             font-size: 20px;
             font-weight: 700;
-            color: #00529c;
+            color: var(--brasilia-blue-primary);
         }
 
-        /* Security Badge */
-        .security-badge {
+        /* Security Badges */
+        .security-badges {
             display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
             align-items: center;
             justify-content: center;
+            padding: 16px;
+            background: linear-gradient(135deg, #f8fff8 0%, #f0f9f0 100%);
+            border-radius: var(--radius-medium);
+            border: 1px solid #d4edda;
+            margin-bottom: 20px;
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
             gap: 8px;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 16px;
-        }
-
-        .security-badge svg {
-            width: 20px;
-            height: 20px;
-            fill: #28a745;
-        }
-
-        .security-badge span {
             font-size: 13px;
-            color: #666;
+            color: var(--brasilia-text-dark);
+            font-weight: 500;
         }
+
+        .payment-logos {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .payment-logos span {
+            font-size: 11px;
+            padding: 4px 8px;
+            background: white;
+            border-radius: 4px;
+            font-weight: 700;
+            border: 1px solid #ddd;
+        }
+
+        .payment-logos .visa { color: #1a1f71; }
+        .payment-logos .mc { color: #eb001b; }
+        .payment-logos .amex { color: #006fcf; }
 
         /* Footer */
         .footer {
@@ -403,80 +569,113 @@
             left: 0;
             right: 0;
             background: white;
-            padding: 16px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            padding: 16px 20px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
             z-index: 100;
         }
 
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-route {
+            font-size: 12px;
+            color: var(--brasilia-text-secondary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-route svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--brasilia-blue-primary);
+        }
+
+        .footer-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .footer-total .label {
+            font-size: 14px;
+            color: var(--brasilia-text-secondary);
+        }
+
+        .footer-total .amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--brasilia-blue-primary);
+        }
+
+        /* Pay Button */
         .pay-btn {
             width: 100%;
-            height: 56px;
-            background: linear-gradient(135deg, #00529c 0%, #003d75 100%);
+            padding: 16px 24px;
+            background: var(--brasilia-red-primary);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
+            border-radius: var(--radius-pill);
+            font-size: 17px;
+            font-weight: 700;
+            font-family: inherit;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(210, 39, 48, 0.3);
         }
 
         .pay-btn:hover {
+            background: var(--brasilia-red-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 82, 156, 0.3);
+            box-shadow: 0 6px 20px rgba(210, 39, 48, 0.4);
+        }
+
+        .pay-btn:active {
+            transform: translateY(0);
         }
 
         .pay-btn:disabled {
-            background: #ccc;
+            background: var(--brasilia-gray-border);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
 
         .pay-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .pay-btn .amount {
+            font-size: 18px;
+        }
+
+        .pay-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .pay-btn.loading::after {
+            content: '';
             width: 20px;
             height: 20px;
-            fill: white;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 10px;
         }
 
-        .footer-total {
-            text-align: center;
-            margin-bottom: 12px;
-        }
-
-        .footer-total .label {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .footer-total .amount {
-            font-size: 24px;
-            font-weight: 700;
-            color: #00529c;
-        }
-
-        /* PSE Banks */
-        .pse-form {
-            display: none;
-        }
-
-        .pse-form.visible {
-            display: block;
-        }
-
-        .pse-form select {
-            width: 100%;
-            height: 50px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 0 14px;
-            font-size: 16px;
-            background: white;
-            cursor: pointer;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Loading Overlay */
@@ -486,7 +685,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255,255,255,0.95);
+            background: rgba(255,255,255,0.97);
             display: none;
             align-items: center;
             justify-content: center;
@@ -499,23 +698,25 @@
         }
 
         .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #eee;
-            border-top-color: #00529c;
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--brasilia-gray-bg);
+            border-top-color: var(--brasilia-blue-primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .loading-text {
+            margin-top: 20px;
+            font-size: 16px;
+            color: var(--brasilia-text-dark);
+            font-weight: 600;
         }
 
-        .loading-text {
-            margin-top: 16px;
-            font-size: 16px;
-            color: #333;
-            font-weight: 600;
+        .loading-subtext {
+            font-size: 14px;
+            color: var(--brasilia-text-secondary);
+            margin-top: 8px;
         }
 
         /* Success Modal */
@@ -530,6 +731,7 @@
             align-items: center;
             justify-content: center;
             z-index: 1000;
+            padding: 20px;
         }
 
         .success-modal.visible {
@@ -538,69 +740,85 @@
 
         .success-content {
             background: white;
-            border-radius: 16px;
+            border-radius: var(--radius-large);
             padding: 32px 24px;
-            max-width: 340px;
-            width: 90%;
+            max-width: 380px;
+            width: 100%;
             text-align: center;
+            animation: slideUp 0.4s ease;
         }
 
         .success-icon {
             width: 80px;
             height: 80px;
-            background: #d4edda;
-            border-radius: 50%;
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-radius: var(--radius-circle);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
-            font-size: 40px;
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: #27ae60;
         }
 
         .success-title {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            color: #333;
+            color: var(--brasilia-text-dark);
             margin-bottom: 8px;
         }
 
         .success-message {
             font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
+            color: var(--brasilia-text-secondary);
+            margin-bottom: 24px;
             line-height: 1.5;
         }
 
         .success-code {
-            background: #f5f5f5;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            background: var(--brasilia-gray-light);
+            padding: 16px;
+            border-radius: var(--radius-medium);
+            margin-bottom: 24px;
+            border: 2px dashed var(--brasilia-gray-border);
         }
 
         .success-code .label {
             font-size: 12px;
-            color: #666;
+            color: var(--brasilia-text-secondary);
             margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .success-code .code {
-            font-size: 20px;
+            font-size: 28px;
             font-weight: 700;
-            color: #00529c;
-            letter-spacing: 2px;
+            color: var(--brasilia-blue-primary);
+            letter-spacing: 3px;
         }
 
         .success-btn {
             width: 100%;
             height: 50px;
-            background: linear-gradient(135deg, #00529c 0%, #003d75 100%);
+            background: linear-gradient(135deg, var(--brasilia-blue-primary) 0%, var(--brasilia-blue-dark) 100%);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: var(--radius-pill);
             font-size: 16px;
             font-weight: 600;
+            font-family: inherit;
             cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .success-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 82, 156, 0.3);
         }
     </style>
 </head>
@@ -609,8 +827,15 @@
     <!-- Header -->
     <header class="header">
         <div class="header-content">
+            <div class="logo">
+                <svg viewBox="0 0 120 40" fill="white" height="32">
+                    <text x="0" y="15" font-size="12" font-weight="300" font-family="'Source Sans Pro', sans-serif">expreso</text>
+                    <text x="0" y="32" font-size="18" font-weight="700" font-family="'Source Sans Pro', sans-serif">brasilia</text>
+                </svg>
+                <span class="tagline">Viajando con tus sueños</span>
+            </div>
             <button class="back-btn" onclick="history.back()">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
             </button>
@@ -627,8 +852,8 @@
         <span class="timer-countdown" id="countdown">10:00</span>
     </div>
 
-    <!-- Progress Steps -->
-    <div class="progress-steps">
+    <!-- Stepper -->
+    <div class="stepper">
         <div class="step completed">
             <div class="step-circle">✓</div>
             <span class="step-label">Sillas</span>
@@ -647,53 +872,85 @@
 
     <!-- Main Content -->
     <main class="main-content">
+
+        <!-- Help Banner -->
+        <div class="help-banner">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="#00529c">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+            </svg>
+            <div class="help-text">
+                <span>¿Necesitas ayuda?</span>
+                <a href="tel:018000518001">01 8000 518 001</a>
+            </div>
+        </div>
+
         <h2 class="section-title">Selecciona tu método de pago</h2>
 
         <!-- Payment Methods -->
         <div class="payment-methods">
-            <div class="payment-method selected" data-method="card" onclick="selectPayment('card')">
-                <div class="payment-radio"></div>
-                <div class="payment-icon">💳</div>
+            <label class="payment-option selected" data-method="card">
+                <input type="radio" name="payment" value="card" checked onchange="selectPayment('card')">
+                <svg class="payment-icon" viewBox="0 0 48 32" fill="none">
+                    <rect width="48" height="32" rx="4" fill="#1A1F71"/>
+                    <rect x="4" y="8" width="40" height="4" fill="#F7B600"/>
+                    <rect x="4" y="16" width="20" height="3" rx="1" fill="white" opacity="0.7"/>
+                    <rect x="4" y="22" width="12" height="2" rx="1" fill="white" opacity="0.5"/>
+                </svg>
                 <div class="payment-info">
                     <div class="payment-name">Tarjeta de crédito o débito</div>
                     <div class="payment-desc">Visa, Mastercard, American Express</div>
                 </div>
-            </div>
-            <div class="payment-method" data-method="pse" onclick="selectPayment('pse')">
-                <div class="payment-radio"></div>
-                <div class="payment-icon">🏦</div>
+            </label>
+
+            <label class="payment-option" data-method="pse">
+                <input type="radio" name="payment" value="pse" onchange="selectPayment('pse')">
+                <svg class="payment-icon" viewBox="0 0 48 32" fill="none">
+                    <rect width="48" height="32" rx="4" fill="#002E5D"/>
+                    <path d="M12 8h24v4H12z" fill="#F7941D"/>
+                    <text x="14" y="24" fill="white" font-size="10" font-weight="bold" font-family="Arial">PSE</text>
+                </svg>
                 <div class="payment-info">
                     <div class="payment-name">PSE - Débito bancario</div>
                     <div class="payment-desc">Paga desde tu cuenta bancaria</div>
                 </div>
-            </div>
-            <div class="payment-method" data-method="efecty" onclick="selectPayment('efecty')">
-                <div class="payment-radio"></div>
-                <div class="payment-icon">💵</div>
+            </label>
+
+            <label class="payment-option" data-method="efecty">
+                <input type="radio" name="payment" value="efecty" onchange="selectPayment('efecty')">
+                <svg class="payment-icon" viewBox="0 0 48 32" fill="none">
+                    <rect width="48" height="32" rx="4" fill="#FFD100"/>
+                    <text x="8" y="20" fill="#000" font-size="10" font-weight="bold" font-family="Arial">efecty</text>
+                </svg>
                 <div class="payment-info">
                     <div class="payment-name">Efecty</div>
                     <div class="payment-desc">Paga en efectivo en puntos Efecty</div>
                 </div>
-            </div>
-            <div class="payment-method" data-method="nequi" onclick="selectPayment('nequi')">
-                <div class="payment-radio"></div>
-                <div class="payment-icon">📱</div>
+            </label>
+
+            <label class="payment-option" data-method="nequi">
+                <input type="radio" name="payment" value="nequi" onchange="selectPayment('nequi')">
+                <svg class="payment-icon" viewBox="0 0 48 32" fill="none">
+                    <rect width="48" height="32" rx="4" fill="#E6007E"/>
+                    <text x="10" y="20" fill="white" font-size="9" font-weight="bold" font-family="Arial">nequi</text>
+                </svg>
                 <div class="payment-info">
                     <div class="payment-name">Nequi</div>
                     <div class="payment-desc">Paga con tu billetera digital</div>
                 </div>
-            </div>
+            </label>
         </div>
 
         <!-- Card Form -->
         <div class="card-form visible" id="cardForm">
             <div class="form-group">
                 <label>Número de tarjeta</label>
-                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
-                <div class="card-icons">
-                    <span>VISA</span>
-                    <span>MC</span>
-                    <span>AMEX</span>
+                <div class="card-input-wrapper">
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                    <div class="card-brands">
+                        <span class="visa">VISA</span>
+                        <span class="mc">MC</span>
+                        <span class="amex">AMEX</span>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -702,7 +959,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Fecha de vencimiento</label>
+                    <label>Vencimiento</label>
                     <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5">
                 </div>
                 <div class="form-group">
@@ -747,8 +1004,8 @@
             </div>
         </div>
 
-        <!-- Order Summary -->
-        <div class="order-summary">
+        <!-- Summary Card -->
+        <div class="summary-card">
             <div class="summary-title">Resumen de tu compra</div>
             <div class="summary-row">
                 <span class="label" id="passengerLabel">1 Pasajero</span>
@@ -768,40 +1025,68 @@
             </div>
         </div>
 
-        <!-- Security Badge -->
-        <div class="security-badge">
-            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-            <span>Pago 100% seguro - Datos encriptados</span>
+        <!-- Security Badges -->
+        <div class="security-badges">
+            <div class="security-item">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="#27ae60">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                </svg>
+                <span>Pago 100% Seguro</span>
+            </div>
+            <div class="security-item">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="#27ae60">
+                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                </svg>
+                <span>Datos Encriptados</span>
+            </div>
+            <div class="payment-logos">
+                <span class="visa">VISA</span>
+                <span class="mc">MC</span>
+                <span class="amex">AMEX</span>
+            </div>
         </div>
+
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-total">
-            <div class="label">Total a pagar</div>
-            <div class="amount" id="footerTotal">$ 149.000 COP</div>
+        <div class="footer-content">
+            <div class="footer-route">
+                <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                <span id="footerRoute">Bogotá → Cartagena</span>
+            </div>
+            <div class="footer-total">
+                <div class="label">Total a pagar</div>
+                <div class="amount" id="footerTotal">$ 149.000 COP</div>
+            </div>
+            <button class="pay-btn" id="payBtn" onclick="processPayment()">
+                <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                </svg>
+                <span>Pagar</span>
+                <span class="amount" id="btnAmount">$ 149.000 COP</span>
+            </button>
         </div>
-        <button class="pay-btn" id="payBtn" onclick="processPayment()">
-            <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-            Pagar ahora
-        </button>
     </footer>
 
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
         <div class="loading-text">Procesando tu pago...</div>
+        <div class="loading-subtext">No cierres esta ventana</div>
     </div>
 
     <!-- Success Modal -->
     <div class="success-modal" id="successModal">
         <div class="success-content">
-            <div class="success-icon">✓</div>
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
             <h3 class="success-title">¡Pago exitoso!</h3>
-            <p class="success-message">Tu reserva ha sido confirmada. Recibirás un correo con los detalles de tu viaje.</p>
+            <p class="success-message">Tu reserva ha sido confirmada. Recibirás un correo electrónico con los detalles de tu viaje y tus tiquetes.</p>
             <div class="success-code">
                 <div class="label">Código de reserva</div>
-                <div class="code" id="reservationCode">ABC123XYZ</div>
+                <div class="code" id="reservationCode">EB-XXXXXX</div>
             </div>
             <button class="success-btn" onclick="window.location.href='/'">Volver al inicio</button>
         </div>
@@ -825,6 +1110,7 @@
             const origin = bookingData.origin || tripData.origin || 'BOGOTA';
             const destination = bookingData.destination || tripData.destination || 'CARTAGENA';
             document.getElementById('routeDisplay').textContent = origin.toUpperCase() + ' - ' + destination.toUpperCase();
+            document.getElementById('footerRoute').textContent = origin + ' → ' + destination;
 
             // Prices
             const totalPrice = bookingData.totalPrice || 149000;
@@ -845,13 +1131,14 @@
 
             document.getElementById('totalPrice').textContent = '$ ' + finalTotal.toLocaleString('es-CO') + ' COP';
             document.getElementById('footerTotal').textContent = '$ ' + finalTotal.toLocaleString('es-CO') + ' COP';
+            document.getElementById('btnAmount').textContent = '$ ' + finalTotal.toLocaleString('es-CO') + ' COP';
         }
 
         function selectPayment(method) {
             selectedPayment = method;
 
             // Update selection UI
-            document.querySelectorAll('.payment-method').forEach(el => {
+            document.querySelectorAll('.payment-option').forEach(el => {
                 el.classList.remove('selected');
             });
             document.querySelector(`[data-method="${method}"]`).classList.add('selected');
@@ -868,11 +1155,31 @@
         }
 
         function setupCardInputs() {
-            // Card number formatting
+            // Card number formatting and brand detection
             document.getElementById('cardNumber').addEventListener('input', function(e) {
                 let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
                 let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
                 e.target.value = formatted;
+
+                // Detect card brand
+                const brands = document.querySelectorAll('.card-brands span');
+                brands.forEach(b => b.classList.remove('active'));
+
+                if (value.startsWith('4')) {
+                    document.querySelector('.card-brands .visa').classList.add('active');
+                } else if (value.startsWith('5') || value.startsWith('2')) {
+                    document.querySelector('.card-brands .mc').classList.add('active');
+                } else if (value.startsWith('3')) {
+                    document.querySelector('.card-brands .amex').classList.add('active');
+                }
+
+                // Validate
+                if (value.length >= 15) {
+                    e.target.classList.add('valid');
+                    e.target.classList.remove('invalid');
+                } else if (value.length > 0) {
+                    e.target.classList.remove('valid');
+                }
             });
 
             // Expiry date formatting
@@ -887,6 +1194,15 @@
             // CVV - numbers only
             document.getElementById('cardCvv').addEventListener('input', function(e) {
                 e.target.value = e.target.value.replace(/\D/g, '');
+            });
+
+            // Name validation
+            document.getElementById('cardName').addEventListener('input', function(e) {
+                if (e.target.value.length >= 3) {
+                    e.target.classList.add('valid');
+                } else {
+                    e.target.classList.remove('valid');
+                }
             });
         }
 
@@ -911,15 +1227,19 @@
         }
 
         function processPayment() {
+            const btn = document.getElementById('payBtn');
+            btn.classList.add('loading');
+
             // Show loading
             document.getElementById('loadingOverlay').classList.add('visible');
 
             // Simulate payment processing
             setTimeout(function() {
                 document.getElementById('loadingOverlay').classList.remove('visible');
+                btn.classList.remove('loading');
 
                 // Generate reservation code
-                const code = 'EB' + Math.random().toString(36).substr(2, 8).toUpperCase();
+                const code = 'EB-' + Math.random().toString(36).substr(2, 6).toUpperCase();
                 document.getElementById('reservationCode').textContent = code;
 
                 // Show success modal
