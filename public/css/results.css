@@ -550,7 +550,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 6px;
 }
 
 .trip-card__header {
@@ -634,7 +634,7 @@ body {
 
 /* 5. Precio actual: 18px */
 .trip-card__price-amount {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--text-dark);
     white-space: nowrap;
@@ -700,7 +700,7 @@ body {
 
 /* 2. Hora salida: weight 600 */
 .trip-card__departure .trip-card__time {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text-dark);
     white-space: nowrap;
@@ -708,18 +708,18 @@ body {
 
 /* 3. Hora llegada: weight 400 */
 .trip-card__arrival .trip-card__time {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
     color: var(--text-dark);
     white-space: nowrap;
 }
 
-/* Terminal: 10px en móvil, color oscuro */
+/* Terminal: 9px en móvil, color oscuro */
 .trip-card__terminal {
-    font-size: 10px;
-    color: rgb(35, 35, 35);
-    margin-top: 2px;
-    line-height: 1.3;
+    font-size: 9px;
+    color: rgb(100, 100, 100);
+    margin-top: 3px;
+    line-height: 1.4;
 }
 
 .trip-card__duration-line {
