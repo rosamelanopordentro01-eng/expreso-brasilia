@@ -883,13 +883,13 @@ body {
 }
 
 .date-bar__nav {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
     flex-shrink: 0;
-    border: 1px solid #ddd;
+    border: none;
     border-radius: 50%;
-    background: white;
+    background: #f0f0f0;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -897,9 +897,17 @@ body {
 }
 
 .date-bar__nav svg {
-    width: 20px;
-    height: 20px;
-    fill: var(--text-gray);
+    width: 16px;
+    height: 16px;
+    fill: #666;
+}
+
+.date-bar__nav:hover {
+    background: #e0e0e0;
+}
+
+.date-bar__nav:hover svg {
+    fill: #333;
 }
 
 .date-bar__dates {
@@ -919,24 +927,25 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 8px 12px;
-    border-radius: 12px;
+    padding: 8px 14px;
+    border-radius: 20px;
     cursor: pointer;
-    min-width: 80px;
+    min-width: 85px;
     text-align: center;
     gap: 2px;
+    background: #f0f0f0;
     border: 2px solid transparent;
     background: #f5f5f5;
     flex-shrink: 0;
 }
 
 .date-bar__item:hover {
-    background: #eee;
+    background: #e5e5e5;
 }
 
 .date-bar__item--active {
-    background: #f0f0f0;
-    border: 2px solid #002674;
+    background: #e0e0e0;
+    border: 2px solid var(--primary-blue);
 }
 
 .date-bar__day {
