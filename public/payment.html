@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago - Expreso Brasilia</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            padding-bottom: 200px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #00529c 0%, #003d75 100%);
+            color: white;
+            padding: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-info h1 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .header-info p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* Timer */
+        .timer-bar {
+            background: #e6e6e6;
+            padding: 8px 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timer-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .timer-countdown {
+            font-size: 15px;
+            font-weight: 700;
+            color: #00529c;
+        }
+
+        .timer-countdown.urgent {
+            color: #BF0811;
+        }
+
+        /* Progress Steps */
+        .progress-steps {
+            background: white;
+            padding: 20px 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            max-width: 80px;
+        }
+
+        .step-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .step.completed .step-circle {
+            background: #00529c;
+            color: white;
+        }
+
+        .step.active .step-circle {
+            background: #00529c;
+            color: white;
+            box-shadow: 0 0 0 4px rgba(0, 82, 156, 0.2);
+        }
+
+        .step.pending .step-circle {
+            background: #e0e0e0;
+            color: #999;
+        }
+
+        .step-label {
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+        }
+
+        .step.active .step-label,
+        .step.completed .step-label {
+            color: #00529c;
+            font-weight: 600;
+        }
+
+        .step-connector {
+            width: 40px;
+            height: 2px;
+            background: #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .step-connector.completed {
+            background: #00529c;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .payment-method:last-child {
+            border-bottom: none;
+        }
+
+        .payment-method:hover {
+            background: #f8f9fa;
+        }
+
+        .payment-method.selected {
+            background: #f0f7ff;
+            border-left: 3px solid #00529c;
+        }
+
+        .payment-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .payment-method.selected .payment-radio {
+            border-color: #00529c;
+        }
+
+        .payment-method.selected .payment-radio::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #00529c;
+            border-radius: 50%;
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        .payment-info {
+            flex: 1;
+        }
+
+        .payment-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .payment-desc {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* Card Form */
+        .card-form {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .card-form.visible {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 0 14px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #00529c;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .card-icons {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .card-icons img {
+            height: 24px;
+        }
+
+        .card-icons span {
+            background: #f5f5f5;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+        }
+
+        .summary-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .summary-row .label {
+            color: #666;
+        }
+
+        .summary-row .value {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .summary-row.discount .value {
+            color: #28a745;
+        }
+
+        .summary-row.total {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+
+        .summary-row.total .label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .summary-row.total .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #00529c;
+        }
+
+        /* Security Badge */
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .security-badge svg {
+            width: 20px;
+            height: 20px;
+            fill: #28a745;
+        }
+
+        .security-badge span {
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 16px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .pay-btn {
+            width: 100%;
+            height: 56px;
+            background: linear-gradient(135deg, #00529c 0%, #003d75 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 82, 156, 0.3);
+        }
+
+        .pay-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .pay-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .footer-total {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .footer-total .label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .footer-total .amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00529c;
+        }
+
+        /* PSE Banks */
+        .pse-form {
+            display: none;
+        }
+
+        .pse-form.visible {
+            display: block;
+        }
+
+        .pse-form select {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 0 14px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .loading-overlay.visible {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #eee;
+            border-top-color: #00529c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 16px;
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Success Modal */
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .success-modal.visible {
+            display: flex;
+        }
+
+        .success-content {
+            background: white;
+            border-radius: 16px;
+            padding: 32px 24px;
+            max-width: 340px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #d4edda;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+        }
+
+        .success-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .success-message {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .success-code {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .success-code .label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .success-code .code {
+            font-size: 20px;
+            font-weight: 700;
+            color: #00529c;
+            letter-spacing: 2px;
+        }
+
+        .success-btn {
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(135deg, #00529c 0%, #003d75 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <button class="back-btn" onclick="history.back()">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </button>
+            <div class="header-info">
+                <h1>Método de pago</h1>
+                <p id="routeDisplay">BOGOTA - CARTAGENA</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Timer -->
+    <div class="timer-bar">
+        <span class="timer-text">Completa tu compra en:</span>
+        <span class="timer-countdown" id="countdown">10:00</span>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="progress-steps">
+        <div class="step completed">
+            <div class="step-circle">✓</div>
+            <span class="step-label">Sillas</span>
+        </div>
+        <div class="step-connector completed"></div>
+        <div class="step completed">
+            <div class="step-circle">✓</div>
+            <span class="step-label">Pasajeros</span>
+        </div>
+        <div class="step-connector completed"></div>
+        <div class="step active">
+            <div class="step-circle">3</div>
+            <span class="step-label">Pago</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h2 class="section-title">Selecciona tu método de pago</h2>
+
+        <!-- Payment Methods -->
+        <div class="payment-methods">
+            <div class="payment-method selected" data-method="card" onclick="selectPayment('card')">
+                <div class="payment-radio"></div>
+                <div class="payment-icon">💳</div>
+                <div class="payment-info">
+                    <div class="payment-name">Tarjeta de crédito o débito</div>
+                    <div class="payment-desc">Visa, Mastercard, American Express</div>
+                </div>
+            </div>
+            <div class="payment-method" data-method="pse" onclick="selectPayment('pse')">
+                <div class="payment-radio"></div>
+                <div class="payment-icon">🏦</div>
+                <div class="payment-info">
+                    <div class="payment-name">PSE - Débito bancario</div>
+                    <div class="payment-desc">Paga desde tu cuenta bancaria</div>
+                </div>
+            </div>
+            <div class="payment-method" data-method="efecty" onclick="selectPayment('efecty')">
+                <div class="payment-radio"></div>
+                <div class="payment-icon">💵</div>
+                <div class="payment-info">
+                    <div class="payment-name">Efecty</div>
+                    <div class="payment-desc">Paga en efectivo en puntos Efecty</div>
+                </div>
+            </div>
+            <div class="payment-method" data-method="nequi" onclick="selectPayment('nequi')">
+                <div class="payment-radio"></div>
+                <div class="payment-icon">📱</div>
+                <div class="payment-info">
+                    <div class="payment-name">Nequi</div>
+                    <div class="payment-desc">Paga con tu billetera digital</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Form -->
+        <div class="card-form visible" id="cardForm">
+            <div class="form-group">
+                <label>Número de tarjeta</label>
+                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                <div class="card-icons">
+                    <span>VISA</span>
+                    <span>MC</span>
+                    <span>AMEX</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Nombre en la tarjeta</label>
+                <input type="text" id="cardName" placeholder="Como aparece en la tarjeta">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Fecha de vencimiento</label>
+                    <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5">
+                </div>
+                <div class="form-group">
+                    <label>CVV</label>
+                    <input type="text" id="cardCvv" placeholder="123" maxlength="4">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Cuotas</label>
+                <select id="installments">
+                    <option value="1">1 cuota (sin interés)</option>
+                    <option value="3">3 cuotas</option>
+                    <option value="6">6 cuotas</option>
+                    <option value="12">12 cuotas</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- PSE Form -->
+        <div class="pse-form" id="pseForm">
+            <div class="form-group">
+                <label>Selecciona tu banco</label>
+                <select id="bankSelect">
+                    <option value="">Seleccionar banco...</option>
+                    <option value="bancolombia">Bancolombia</option>
+                    <option value="davivienda">Davivienda</option>
+                    <option value="bbva">BBVA</option>
+                    <option value="bogota">Banco de Bogotá</option>
+                    <option value="occidente">Banco de Occidente</option>
+                    <option value="popular">Banco Popular</option>
+                    <option value="avvillas">AV Villas</option>
+                    <option value="nequi">Nequi</option>
+                    <option value="daviplata">Daviplata</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tipo de persona</label>
+                <select id="personType">
+                    <option value="natural">Persona Natural</option>
+                    <option value="juridica">Persona Jurídica</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <div class="summary-title">Resumen de tu compra</div>
+            <div class="summary-row">
+                <span class="label" id="passengerLabel">1 Pasajero</span>
+                <span class="value" id="subtotalPrice">$ 184.000 COP</span>
+            </div>
+            <div class="summary-row discount">
+                <span class="label">Descuento</span>
+                <span class="value" id="discountPrice">-$ 35.000 COP</span>
+            </div>
+            <div class="summary-row" id="insuranceRow" style="display: none;">
+                <span class="label">Seguro de viaje</span>
+                <span class="value">$ 2.900 COP</span>
+            </div>
+            <div class="summary-row total">
+                <span class="label">Total</span>
+                <span class="value" id="totalPrice">$ 149.000 COP</span>
+            </div>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="security-badge">
+            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+            <span>Pago 100% seguro - Datos encriptados</span>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-total">
+            <div class="label">Total a pagar</div>
+            <div class="amount" id="footerTotal">$ 149.000 COP</div>
+        </div>
+        <button class="pay-btn" id="payBtn" onclick="processPayment()">
+            <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+            Pagar ahora
+        </button>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Procesando tu pago...</div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">✓</div>
+            <h3 class="success-title">¡Pago exitoso!</h3>
+            <p class="success-message">Tu reserva ha sido confirmada. Recibirás un correo con los detalles de tu viaje.</p>
+            <div class="success-code">
+                <div class="label">Código de reserva</div>
+                <div class="code" id="reservationCode">ABC123XYZ</div>
+            </div>
+            <button class="success-btn" onclick="window.location.href='/'">Volver al inicio</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedPayment = 'card';
+        let timeLeft = 10 * 60;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBookingData();
+            startCountdown();
+            setupCardInputs();
+        });
+
+        function loadBookingData() {
+            const bookingData = JSON.parse(localStorage.getItem('bookingData') || '{}');
+            const tripData = JSON.parse(localStorage.getItem('tripData') || '{}');
+
+            // Route display
+            const origin = bookingData.origin || tripData.origin || 'BOGOTA';
+            const destination = bookingData.destination || tripData.destination || 'CARTAGENA';
+            document.getElementById('routeDisplay').textContent = origin.toUpperCase() + ' - ' + destination.toUpperCase();
+
+            // Prices
+            const totalPrice = bookingData.totalPrice || 149000;
+            const passengers = bookingData.passengers || bookingData.selectedSeats || [1];
+            const passengerCount = Array.isArray(passengers) ? passengers.length : 1;
+            const hasInsurance = bookingData.insurance || false;
+
+            document.getElementById('passengerLabel').textContent = passengerCount + ' Pasajero' + (passengerCount > 1 ? 's' : '');
+
+            const subtotal = totalPrice + 35000;
+            document.getElementById('subtotalPrice').textContent = '$ ' + subtotal.toLocaleString('es-CO') + ' COP';
+
+            let finalTotal = totalPrice;
+            if (hasInsurance) {
+                document.getElementById('insuranceRow').style.display = 'flex';
+                finalTotal += 2900 * passengerCount;
+            }
+
+            document.getElementById('totalPrice').textContent = '$ ' + finalTotal.toLocaleString('es-CO') + ' COP';
+            document.getElementById('footerTotal').textContent = '$ ' + finalTotal.toLocaleString('es-CO') + ' COP';
+        }
+
+        function selectPayment(method) {
+            selectedPayment = method;
+
+            // Update selection UI
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+            document.querySelector(`[data-method="${method}"]`).classList.add('selected');
+
+            // Show/hide forms
+            document.getElementById('cardForm').classList.remove('visible');
+            document.getElementById('pseForm').classList.remove('visible');
+
+            if (method === 'card') {
+                document.getElementById('cardForm').classList.add('visible');
+            } else if (method === 'pse') {
+                document.getElementById('pseForm').classList.add('visible');
+            }
+        }
+
+        function setupCardInputs() {
+            // Card number formatting
+            document.getElementById('cardNumber').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\s/g, '').replace(/\D/g, '');
+                let formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formatted;
+            });
+
+            // Expiry date formatting
+            document.getElementById('cardExpiry').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.slice(0, 2) + '/' + value.slice(2);
+                }
+                e.target.value = value;
+            });
+
+            // CVV - numbers only
+            document.getElementById('cardCvv').addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/\D/g, '');
+            });
+        }
+
+        function startCountdown() {
+            const countdownEl = document.getElementById('countdown');
+            const timer = setInterval(function() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                countdownEl.textContent = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+
+                if (timeLeft <= 60) {
+                    countdownEl.classList.add('urgent');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    alert('El tiempo para completar tu compra ha expirado.');
+                    window.location.href = '/';
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function processPayment() {
+            // Show loading
+            document.getElementById('loadingOverlay').classList.add('visible');
+
+            // Simulate payment processing
+            setTimeout(function() {
+                document.getElementById('loadingOverlay').classList.remove('visible');
+
+                // Generate reservation code
+                const code = 'EB' + Math.random().toString(36).substr(2, 8).toUpperCase();
+                document.getElementById('reservationCode').textContent = code;
+
+                // Show success modal
+                document.getElementById('successModal').classList.add('visible');
+
+                // Clear booking data
+                localStorage.removeItem('bookingData');
+                localStorage.removeItem('tripData');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
