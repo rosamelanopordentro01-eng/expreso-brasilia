@@ -376,7 +376,7 @@
         });
 
         localStorage.setItem('bookingData', JSON.stringify(bookingData));
-        window.location.href = '/checkout.html';
+        window.location.href = '/payment.html';
     });
 
     // ============================================
