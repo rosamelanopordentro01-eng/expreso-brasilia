@@ -3,14 +3,14 @@
    Réplica EXACTA de viaje.expresobrasilia.com
    ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
 
 /* ============================================
    VARIABLES
    ============================================ */
 :root {
-    --primary-blue: #00529C;
-    --primary-blue-dark: #003D75;
+    --primary-blue: #002674;
+    --primary-blue-dark: #001541;
     --secondary-red: #BF0811;
     --text-gray: #767676;
     --text-medium: #686868;
@@ -22,12 +22,12 @@
     --white: #FFFFFF;
     --gray-shadow: rgba(0, 0, 0, 0.2);
     --page-bg: #FAFAFA;
-    --font-main: 'Source Sans Pro', sans-serif;
+    --font-main: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif;
 
     /* Border-radius tokens */
-    --radius-sm: 8px;
-    --radius-md: 16px;
-    --radius-lg: 20px;
+    --radius-sm: 3px;
+    --radius-md: 3px;
+    --radius-lg: 3px;
     --radius-pill: 999px;
 }
 
@@ -203,7 +203,7 @@ body {
     gap: 4px;
     padding: 0;
     border: 1px solid #BF0811;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     background: white;
     font-family: var(--font-main);
     cursor: pointer;
@@ -221,7 +221,7 @@ body {
     width: 35px;
     height: 35px;
     background: #BF0811;
-    border-radius: var(--radius-sm);
+    border-radius: 5px;
     flex-shrink: 0;
 }
 
@@ -282,9 +282,9 @@ body {
 .filter-bar__time-btn {
     background: white;
     border: 1px solid #e6e6e6;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     color: #000;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     font-family: var(--font-main);
     padding: 8px 10px;
@@ -364,7 +364,7 @@ body {
 .badge-para-ti-container {
     display: flex;
     align-items: center;
-    background: linear-gradient(to left, #003D75, #00529C);
+    background: linear-gradient(to left, #001541, #002674);
     padding: 5px 10px;
     border-radius: 7px;
     color: white;
@@ -426,16 +426,16 @@ body {
 .trip-card {
     background-color: var(--white);
     border-radius: var(--radius-lg) !important;
-    padding: 10px !important;
+    padding: 15px 10px !important;
     margin: 10px 12px;
-    box-shadow: 2px 2px 5px 0px var(--gray-shadow);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     overflow: visible;
     position: relative;
     transition: all 0.3s ease;
 }
 
 .trip-card:hover {
-    box-shadow: 2px 2px 8px 0px var(--gray-shadow);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 /* ============================================
@@ -446,7 +446,7 @@ body {
 
 /* --- Wrapper base (compartido) --- */
 .trip-card-highlighted-wrapper {
-    border-radius: 20px;
+    border-radius: var(--radius-lg);
     padding: 3px;
     margin: 10px 0px;
     position: relative;
@@ -468,7 +468,7 @@ body {
 
 /* --- Panel lateral con texto vertical --- */
 .trip-card__side-label {
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-sm);
     width: 30px;
     min-width: 30px;
     position: relative;
@@ -509,10 +509,10 @@ body {
 /* Card interior */
 .trip-card--highlighted {
     background-color: var(--white) !important;
-    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2) !important;
-    border-radius: 17px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    border-radius: var(--radius-lg) !important;
     border: none !important;
-    padding: 10px !important;
+    padding: 15px 10px !important;
     overflow: visible;
     position: relative;
     margin: 0;
@@ -808,7 +808,7 @@ body {
 
 /* Botón SÓLIDO solo en card recomendada/destacada */
 .trip-card--highlighted .trip-card__seats-btn {
-    background: linear-gradient(115deg, #00529C, #003D75);
+    background: linear-gradient(115deg, #002674, #001541);
     color: white;
     border: none;
 }
@@ -833,7 +833,7 @@ body {
     padding: 24px 12px;
     background: white;
     margin: 16px 12px 100px;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-sm);
 }
 
 .search-footer__powered {
@@ -934,7 +934,7 @@ body {
 
 .date-bar__item--active {
     background: #f0f0f0;
-    border: 2px solid #00529C;
+    border: 2px solid #002674;
 }
 
 .date-bar__day {
@@ -1220,7 +1220,7 @@ body {
     box-shadow: rgba(177, 177, 177, 0.5) 0px 2px 4px;
 }
 .seats-legend__box--selected {
-    background: linear-gradient(to left, rgb(0, 61, 117), rgb(0, 82, 156));
+    background: linear-gradient(to left, #001541, #002674);
 }
 .seats-legend__box--occupied {
     background: rgb(230, 230, 230);
@@ -1332,7 +1332,7 @@ body {
     box-shadow: none;
 }
 .seat-btn--selected {
-    background: linear-gradient(to left, rgb(0, 61, 117), rgb(0, 82, 156));
+    background: linear-gradient(to left, #001541, #002674);
     color: rgb(255, 255, 255);
     cursor: pointer;
     box-shadow: none;
@@ -1386,7 +1386,7 @@ body {
 .seats-panel__footer-btn {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(115deg, rgb(0, 82, 156), rgb(0, 61, 117));
+    background: linear-gradient(115deg, #002674, #001541);
     color: white;
     font-size: 14px;
     font-weight: 600;

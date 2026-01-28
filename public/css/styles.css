@@ -88,10 +88,10 @@ button {
 .blue-gradient-wrapper {
     background: linear-gradient(
         180deg,
-        #00529C 0%,
-        #00529C 30%,
-        #003d73 60%,
-        #232323 90%,
+        #00529c 0%,
+        #003d73 20%,
+        #1a2a3a 50%,
+        #232323 70%,
         #232323 100%
     );
     position: relative;
@@ -327,12 +327,15 @@ button {
 /* Contenedor del formulario de búsqueda - Móvil */
 .search-form-container {
     width: 100%;
-    padding: 20px 15px;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 10px 6px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     order: 1;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 /* Título "Viajamos con tus sueños" - Móvil */
@@ -362,14 +365,14 @@ button {
    SEARCH FORM - CORREGIDO FINAL
    ======================================== */
 
-/* Wrapper azul del formulario */
+/* Wrapper del formulario - transparente como el original */
 .search-form-wrapper {
-    background: linear-gradient(180deg, #1565a8 0%, #0d4a7a 100%);
+    background: transparent;
     border-radius: var(--radius-lg);
-    padding: 28px 20px;
+    padding: 0;
     width: 100%;
-    max-width: 460px;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .search-form {
@@ -632,35 +635,36 @@ button {
     display: none;
 }
 
-/* Botones (Hoy, Mañana, Elegir) - Forma pill */
+/* Botones (Hoy, Mañana, Elegir) - Todos transparentes como el original */
 .date-btn {
-    background: #FFFFFF !important;
-    border: 1px solid #E0E0E0 !important;
-    border-radius: 999px !important;
-    padding: 4px 14px !important;
-    font-size: 15px !important;
-    font-weight: 600 !important;
+    background: transparent;
+    border: 1px solid #c7c7c7;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 14px;
+    font-weight: 600;
     font-family: var(--font-body);
-    color: #232323 !important;
-    height: 32px !important;
+    color: #232323;
+    height: 32px;
     display: inline-flex;
     align-items: center;
     gap: 4px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
     white-space: nowrap;
     flex-shrink: 0;
 }
 
 .date-btn:hover {
-    background-color: #F5F5F5 !important;
+    border-color: #999999;
+    background: rgba(0, 0, 0, 0.03);
 }
 
-/* Hoy activo - fondo gris suave */
+/* Activo - mismo estilo que normal (sin diferencia visual) */
 .date-btn.active {
-    background-color: var(--primary-blue) !important;
-    color: #FFFFFF !important;
-    border-color: transparent !important;
+    background: transparent;
+    color: #232323;
+    border-color: #c7c7c7;
 }
 
 .date-btn svg {
@@ -768,13 +772,12 @@ button {
 
 .search-btn {
     width: 100%;
-    max-width: 280px;
     margin: 15px auto 0;
-    padding: 18px;
-    background: var(--accent-red);
+    padding: 0 20px;
+    background: #d22730;
     color: white;
     border: none;
-    border-radius: var(--radius-pill);
+    border-radius: 20px;
     font-size: 18px;
     font-weight: 700;
     font-family: var(--font-body);
@@ -782,20 +785,20 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    transition: all 0.2s;
-    height: 56px;
-    letter-spacing: 0.3px;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+    min-height: 55px;
+    height: 55px;
 }
 
 .search-btn:hover {
-    background: #a00710;
-    transform: translateY(-1px);
+    background: #bf0811;
 }
 
 .search-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
+    fill: white;
 }
 
 /* Estilos antiguos - mantener por compatibilidad */
@@ -1624,6 +1627,14 @@ button {
    RESPONSIVE - TABLET (500px+)
    ======================================== */
 @media (min-width: 500px) {
+    .search-form-container {
+        padding: 20px;
+    }
+
+    .search-form-wrapper {
+        padding: 0;
+    }
+
     .destinations-list {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -1649,10 +1660,6 @@ button {
     .hero-title {
         font-size: 32px;
         line-height: 32px;
-    }
-
-    .search-form-container {
-        max-width: 500px;
     }
 
     .carousel-wrapper .carousel-slides {
