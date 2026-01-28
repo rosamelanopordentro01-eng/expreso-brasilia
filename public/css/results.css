@@ -919,11 +919,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 6px 10px;
-    border-radius: 50px;
+    padding: 8px 12px;
+    border-radius: 12px;
     cursor: pointer;
-    min-width: 70px;
+    min-width: 80px;
     text-align: center;
+    gap: 2px;
     border: 2px solid transparent;
     background: #f5f5f5;
     flex-shrink: 0;
@@ -939,18 +940,21 @@ body {
 }
 
 .date-bar__day {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--text-dark);
+    line-height: 1.2;
 }
 
 .date-bar__price {
-    font-size: 11px;
-    color: var(--secondary-red);
+    font-size: 9px;
+    color: var(--text-medium);
+    line-height: 1.2;
 }
 
 .date-bar__price strong {
     font-weight: 700;
+    color: var(--secondary-red);
 }
 
 /* ============================================
