@@ -26,8 +26,8 @@
 
     /* Border-radius tokens */
     --radius-sm: 3px;
-    --radius-md: 3px;
-    --radius-lg: 3px;
+    --radius-md: 10px;
+    --radius-lg: 20px;
     --radius-pill: 999px;
 }
 
