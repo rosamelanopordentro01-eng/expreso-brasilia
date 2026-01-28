@@ -43,11 +43,14 @@ function formatDuration(minutes) {
 
 /**
  * Formatear hora ISO a "HH:MM AM/PM"
+ * Parsea directamente del string para evitar conversiones de timezone
  */
 function formatTime(isoTime) {
-    const date = new Date(isoTime);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
+    const timePart = isoTime.split('T')[1];
+    if (!timePart) return isoTime;
+    const [hStr, mStr] = timePart.substring(0, 5).split(':');
+    const hours = parseInt(hStr, 10);
+    const minutes = parseInt(mStr, 10);
     const period = hours >= 12 ? 'PM' : 'AM';
     const displayHours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
     return `${String(displayHours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${period}`;
@@ -104,9 +107,16 @@ function formatDateForAPI(date) {
 
 /**
  * Normalizar texto para slug
+ * Extrae solo el nombre de la ciudad (antes de la coma si hay departamento)
  */
 function toSlug(text) {
-    return text.toLowerCase()
+    // Si tiene formato "Ciudad, Departamento", extraer solo la ciudad
+    let cityName = text;
+    if (text.includes(',')) {
+        cityName = text.split(',')[0].trim();
+    }
+
+    return cityName.toLowerCase()
         .replace(/\s+/g, '-')
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '');
@@ -244,7 +254,7 @@ async function getSearchResults(searchId) {
 
         const data = await response.json();
 
-        if (data.state === 'finished' || data.state === 'complete' || (data.trips && data.trips.length > 0)) {
+        if (data.state === 'finished' || data.state === 'complete') {
             console.log(`[API] Search results ready (attempt ${attempt})`);
             return data;
         }
@@ -468,7 +478,7 @@ router.get('/search', async (req, res) => {
             if (trip.line_id.includes('vip') || trip.line_id.includes('diamante')) {
                 badges.push('recommended');
             }
-            if (index < 3 && trip.availability > 20) {
+            if (trip.availability > 10) {
                 badges.push('popular');
             }
 
@@ -498,12 +508,22 @@ router.get('/search', async (req, res) => {
                 amenities: amenities,
                 badges,
                 lineId: trip.line_id,
+                lineLogoUrl: line?.logo_url || null,
                 allowsSeatSelection: trip.allows_seat_selection
             };
         });
 
-        // Ordenar por hora de salida
-        trips.sort((a, b) => a.departure.time.localeCompare(b.departure.time));
+        // El primer viaje de la API es el recomendado, el resto se ordena por hora de salida
+        if (trips.length > 1) {
+            const recommended = trips[0];
+            const rest = trips.slice(1).sort((a, b) => {
+                const timeA = a.departure.date + ' ' + a.departure.time;
+                const timeB = b.departure.date + ' ' + b.departure.time;
+                return timeA.localeCompare(timeB);
+            });
+            trips.length = 0;
+            trips.push(recommended, ...rest);
+        }
 
         // Calcular rango de precios
         const prices = trips.map(t => t.price.current);

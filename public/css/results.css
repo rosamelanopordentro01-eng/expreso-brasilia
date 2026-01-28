@@ -1,0 +1,1410 @@
+/* ================================================================
+   EXPRESO BRASILIA - PÁGINA DE RESULTADOS
+   Réplica EXACTA de viaje.expresobrasilia.com
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+
+/* ============================================
+   VARIABLES
+   ============================================ */
+:root {
+    --primary-blue: #00529C;
+    --primary-blue-dark: #003D75;
+    --secondary-red: #BF0811;
+    --text-gray: #767676;
+    --text-medium: #686868;
+    --text-dark: #232323;
+    --color-discount: #c86b11;
+    --orange-shadow: rgba(217, 119, 87, 0.24);
+    --orange-border: #D97757;
+    --cream-bg: #FAF9F5;
+    --white: #FFFFFF;
+    --gray-shadow: rgba(0, 0, 0, 0.2);
+    --page-bg: #FAFAFA;
+    --font-main: 'Source Sans Pro', sans-serif;
+
+    /* Border-radius tokens */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 20px;
+    --radius-pill: 999px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-dark);
+    background-color: var(--page-bg);
+    padding-bottom: 100px; /* Espacio para barra de fechas fija */
+}
+
+/* ============================================
+   1. HEADER
+   ============================================ */
+.search-header {
+    background-color: var(--primary-blue);
+    height: 60px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* ---- Back button ---- */
+.search-header__back {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+}
+
+.search-header__back svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+}
+
+/* ---- Logo en círculo blanco ---- */
+.search-header__logo-wrapper {
+    width: 35px;
+    height: 35px;
+    background: var(--white);
+    border-radius: 50px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.search-header__logo {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    filter: none;
+}
+
+/* ---- Cambiar búsqueda (pill rellena + lupa) ---- */
+.search-header__change-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50px;
+    padding: 4px 4px 4px 12px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font-main);
+    cursor: pointer;
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow: hidden;
+    height: 40px;
+    transition: background 0.2s;
+}
+
+.search-header__change-btn span:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    flex: 1 1 0;
+}
+
+.search-header__change-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Icono de búsqueda circular dentro del botón */
+.search-header__change-btn-icon {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    background: var(--white);
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.search-header__change-btn-icon svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--primary-blue);
+}
+
+/* ---- User icon (círculos anidados) ---- */
+.search-header__user {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+.search-header__user-circle {
+    width: 32px;
+    height: 32px;
+    background: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-header__user-circle svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--primary-blue);
+}
+
+/* ============================================
+   2. BARRA DE FILTROS
+   ============================================ */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 5px;
+    background: white;
+    border-bottom: 1px solid #eee;
+    overflow: visible;
+}
+
+/* --- Botón Filtros --- */
+.filter-bar__filters-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+    border: 1px solid #BF0811;
+    border-radius: 10px;
+    background: white;
+    font-family: var(--font-main);
+    cursor: pointer;
+    position: relative;
+    height: 37px;
+    flex-shrink: 0;
+    overflow: visible;
+}
+
+/* Caja roja del ícono de filtro */
+.filter-bar__icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background: #BF0811;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+/* Texto "Filtros" en azul bold */
+.filter-bar__filters-text {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    padding: 0 8px 0 4px;
+}
+
+/* Badge contador — círculo blanco con número azul */
+.filter-bar__badge {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    background: white;
+    color: var(--primary-blue);
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    width: 17px;
+    height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* --- Flechas de navegación (chevrones grises simples) --- */
+.filter-bar__nav-prev,
+.filter-bar__nav-next {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* --- Contenedor scroll de botones de tiempo --- */
+.filter-bar__tags-scroll {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+    flex: 1;
+    min-width: 0;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.filter-bar__tags-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- Botones de franja horaria --- */
+.filter-bar__time-btn {
+    background: white;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--font-main);
+    padding: 8px 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.filter-bar__time-btn::after {
+    content: none;
+}
+
+.filter-bar__time-btn:hover {
+    background: #f5f5f5;
+}
+
+.filter-bar__time-btn.active {
+    border-color: var(--primary-blue);
+    color: var(--primary-blue);
+    font-weight: 600;
+    background: white;
+}
+
+/* ============================================
+   3. TÍTULO RESULTADOS
+   ============================================ */
+.results-title {
+    padding: 20px 12px 10px;
+    background: var(--white);
+}
+
+.results-title__heading {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.results-title__date {
+    font-size: 14px;
+    color: var(--text-gray);
+}
+
+.results-title__count {
+    font-size: 14px;
+    color: var(--text-gray);
+    margin-top: 8px;
+}
+
+.results-title__count strong {
+    color: var(--text-dark);
+}
+
+/* ============================================
+   4. SECCIÓN RECOMENDADOS
+   ============================================ */
+.recommended-section {
+    padding: 15px 12px 0px 12px;
+    background: var(--white);
+}
+
+.recommended-section__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+    gap: 8px;
+}
+
+.recommended-section__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Badge PARA TI con estrellas posicionadas fuera */
+.badge-para-ti-container {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to left, #003D75, #00529C);
+    padding: 5px 10px;
+    border-radius: 7px;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    position: relative;
+    overflow: visible;
+}
+
+.badge-para-ti-stars {
+    position: absolute;
+    width: 25px;
+    height: 31.5px;
+    overflow: visible;
+}
+
+.badge-para-ti-stars--left {
+    left: -15px;
+    top: -14px;
+}
+
+.badge-para-ti-stars--right {
+    right: -18px;
+    bottom: -21.5px;
+}
+
+.badge-para-ti-stars--left .badge-para-ti-stars__anim {
+    animation: starsLeft 1.5s ease-in-out infinite alternate;
+}
+
+.badge-para-ti-stars--right .badge-para-ti-stars__anim {
+    animation: starsRight 1.5s ease-in-out infinite alternate;
+}
+
+.badge-para-ti-stars svg {
+    width: 100%;
+    height: auto;
+}
+
+.badge-para-ti-text {
+    color: white;
+    font-weight: 700;
+    font-size: 11px;
+}
+
+@keyframes starsLeft {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(0.5); opacity: 1; }
+}
+
+@keyframes starsRight {
+    0% { transform: scale(0.5); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.5; }
+}
+
+/* ============================================
+   5. CARD BASE (NORMAL)
+   ============================================ */
+.trip-card {
+    background-color: var(--white);
+    border-radius: var(--radius-lg) !important;
+    padding: 10px !important;
+    margin: 10px 12px;
+    box-shadow: 2px 2px 5px 0px var(--gray-shadow);
+    overflow: visible;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.trip-card:hover {
+    box-shadow: 2px 2px 8px 0px var(--gray-shadow);
+}
+
+/* ============================================
+   6. CARD DESTACADA — 2 variantes según badge
+   "recommended" → morado + cohete + "Más rápido"
+   "popular"     → naranja + fuego  + "Popular"
+   ============================================ */
+
+/* --- Wrapper base (compartido) --- */
+.trip-card-highlighted-wrapper {
+    border-radius: 20px;
+    padding: 3px;
+    margin: 10px 0px;
+    position: relative;
+    overflow: visible;
+    display: flex;
+    flex-direction: row;
+    animation: highlightFadeIn 1s backwards;
+}
+
+/* Variante AZUL CIELO (Más rápido / recommended) */
+.trip-card-highlighted-wrapper--fastest {
+    background: linear-gradient(rgb(92, 190, 247), rgb(36, 151, 229));
+}
+
+/* Variante NARANJA (Popular) */
+.trip-card-highlighted-wrapper--popular {
+    background: linear-gradient(rgb(252, 187, 181), rgb(253, 68, 34));
+}
+
+/* --- Panel lateral con texto vertical --- */
+.trip-card__side-label {
+    border-radius: var(--radius-lg);
+    width: 30px;
+    min-width: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+/* Heredar el gradiente del wrapper padre */
+.trip-card-highlighted-wrapper--fastest .trip-card__side-label {
+    background: linear-gradient(rgb(92, 190, 247), rgb(36, 151, 229));
+}
+.trip-card-highlighted-wrapper--popular .trip-card__side-label {
+    background: linear-gradient(rgb(252, 187, 181), rgb(253, 68, 34));
+}
+
+.trip-card__side-label-text {
+    position: absolute;
+    transform: rotate(-90deg);
+    white-space: nowrap;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+/* Ícono (cohete o fuego) */
+.trip-card__highlight-icon {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    font-size: 30px;
+    z-index: 10;
+    line-height: 1;
+}
+
+/* Card interior */
+.trip-card--highlighted {
+    background-color: var(--white) !important;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2) !important;
+    border-radius: 17px !important;
+    border: none !important;
+    padding: 10px !important;
+    overflow: visible;
+    position: relative;
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Ocultar iconos viejos sueltos */
+.trip-card__fire-icon-emoji { display: none; }
+.trip-card__rocket-icon { display: none; }
+
+/* Badge Popular - oculto (no existe en el sitio original) */
+.trip-card__badge-popular {
+    display: none;
+    background: linear-gradient(135deg, #D97757, #E8956A);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 10px;
+    letter-spacing: 0.3px;
+    margin-bottom: 6px;
+}
+
+/* Ocultar badge Popular dentro del wrapper destacado (el card recomendado no lo necesita) */
+.trip-card-highlighted-wrapper .trip-card__badge-popular {
+    display: none;
+}
+
+/* ============================================
+   7. CONTENIDO DE LA CARD
+   ============================================ */
+/* 10. Gap interno compacto */
+.trip-card__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.trip-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    gap: 8px;
+}
+
+.trip-card__line-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+}
+
+.trip-card__line-logo {
+    width: 80px;
+    height: auto;
+    max-height: 30px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.trip-card__line-name-fallback {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.trip-card__service {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.trip-card__service-name {
+    display: none;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.trip-card__service-type {
+    font-size: 12px;
+    color: rgb(155, 155, 155);
+}
+
+/* Precios */
+.trip-card__price-container {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* Precio anterior: "Anterior: $140.000 COP" — todo en itálica, sin tachado */
+.trip-card__price-old {
+    font-size: 14px;
+    font-style: italic;
+    color: rgb(155, 155, 155);
+}
+
+.trip-card__price-striked {
+    font-size: 14px;
+    text-decoration: none;
+    color: rgb(155, 155, 155);
+}
+
+.trip-card__price {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    justify-content: flex-end;
+}
+
+/* 5. Precio actual: 18px */
+.trip-card__price-amount {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+/* 6. Moneda COP: 14.4px, bold, oscuro */
+.trip-card__price-currency {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-left: 4px;
+}
+
+/* ============================================
+   8. HORARIOS
+   ============================================ */
+.trip-card__schedule {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
+    gap: 4px;
+}
+
+.trip-card__departure,
+.trip-card__arrival {
+    display: flex;
+    flex-direction: column;
+}
+
+.trip-card__departure {
+    min-width: 0;
+    flex-shrink: 0;
+}
+
+.trip-card__arrival {
+    text-align: right;
+    min-width: 0;
+    flex-shrink: 0;
+}
+
+/* Fila de hora + logo pequeño */
+.trip-card__time-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Ícono de franja horaria (sol/nube) al lado del horario */
+.trip-card__time-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+.trip-card__time-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* 2. Hora salida: weight 600 */
+.trip-card__departure .trip-card__time {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+/* 3. Hora llegada: weight 400 */
+.trip-card__arrival .trip-card__time {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+/* Terminal: 12px, color oscuro */
+.trip-card__terminal {
+    font-size: 12px;
+    color: rgb(35, 35, 35);
+    margin-top: 2px;
+}
+
+.trip-card__duration-line {
+    height: 1px;
+    width: 100%;
+    min-width: 20px;
+    background: repeating-linear-gradient(
+        to right,
+        rgb(220, 220, 220) 0,
+        rgb(220, 220, 220) 4px,
+        transparent 4px,
+        transparent 8px
+    );
+}
+
+.trip-card__routes {
+    font-size: 12px;
+    color: rgb(155, 155, 155);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -2px;
+    white-space: nowrap;
+}
+
+/* ============================================
+   9. CONECTOR DE HORARIOS
+   ============================================ */
+.trip-card__schedule-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 20px;
+    position: relative;
+}
+
+/* ============================================
+   10. ACCIONES - BOTONES
+   ============================================ */
+.trip-card__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+    gap: 8px;
+}
+
+.trip-card__details-btn {
+    background: transparent;
+    border: none;
+    color: var(--secondary-red);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-main);
+    cursor: pointer;
+    padding: 8px 4px;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.trip-card__details-btn:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+/* Botón por defecto: OUTLINE (para cards regulares) */
+.trip-card__seats-btn {
+    background: transparent;
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+    border-radius: 50px;
+    padding: 10px 25px;
+    font-size: 16px;
+    white-space: nowrap;
+    font-weight: 600;
+    font-family: var(--font-main);
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.trip-card__seats-btn:hover {
+    opacity: 0.85;
+}
+
+/* Botón SÓLIDO solo en card recomendada/destacada */
+.trip-card--highlighted .trip-card__seats-btn {
+    background: linear-gradient(115deg, #00529C, #003D75);
+    color: white;
+    border: none;
+}
+
+/* ============================================
+   11. CONTENEDOR RESULTADOS
+   ============================================ */
+.results-container {
+    padding: 0;
+    background: var(--page-bg);
+}
+
+.results-list {
+    padding: 0;
+}
+
+/* ============================================
+   12. FOOTER - POWERED BY RESERHUB
+   ============================================ */
+.search-footer {
+    text-align: center;
+    padding: 24px 12px;
+    background: white;
+    margin: 16px 12px 100px;
+    border-radius: var(--radius-lg);
+}
+
+.search-footer__powered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: var(--text-gray);
+    font-size: 14px;
+}
+
+.search-footer__logo {
+    color: #003D75;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.search-footer__message {
+    color: var(--text-gray);
+    font-size: 14px;
+    font-style: italic;
+    margin: 0;
+}
+
+/* ============================================
+   13. BARRA DE FECHAS FIJA - HORIZONTAL ABAJO
+   ============================================ */
+.date-bar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    background: white;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    gap: 6px;
+    overflow: hidden;
+    z-index: 1000;
+    gap: 8px;
+}
+
+.date-bar__nav {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    flex-shrink: 0;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.date-bar__nav svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--text-gray);
+}
+
+.date-bar__dates {
+    display: flex;
+    flex-direction: row !important;
+    gap: 4px;
+    overflow-x: auto;
+    flex: 1;
+    min-width: 0;
+}
+
+.date-bar__dates::-webkit-scrollbar {
+    display: none;
+}
+
+.date-bar__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 50px;
+    cursor: pointer;
+    min-width: 70px;
+    text-align: center;
+    border: 2px solid transparent;
+    background: #f5f5f5;
+    flex-shrink: 0;
+}
+
+.date-bar__item:hover {
+    background: #eee;
+}
+
+.date-bar__item--active {
+    background: #f0f0f0;
+    border: 2px solid #00529C;
+}
+
+.date-bar__day {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.date-bar__price {
+    font-size: 11px;
+    color: var(--secondary-red);
+}
+
+.date-bar__price strong {
+    font-weight: 700;
+}
+
+/* ============================================
+   14. ESTADOS
+   ============================================ */
+.results-loading {
+    padding: 60px 20px;
+    text-align: center;
+    background: var(--white);
+}
+
+.results-loading__spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #E5E7EB;
+    border-top-color: var(--primary-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.results-loading__text {
+    font-size: 16px;
+    color: var(--text-gray);
+}
+
+.results-empty {
+    padding: 60px 20px;
+    text-align: center;
+    background: var(--white);
+}
+
+.results-empty__icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.results-empty__title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.results-empty__message {
+    font-size: 14px;
+    color: var(--text-gray);
+    margin-bottom: 24px;
+}
+
+.results-empty__btn {
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: var(--font-main);
+    cursor: pointer;
+}
+
+/* ============================================
+   15. RESPONSIVE
+   ============================================ */
+@media (min-width: 768px) {
+    .results-container,
+    .recommended-section,
+    .results-title,
+    .search-footer {
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .trip-card {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 568px;
+    }
+
+    .trip-card-highlighted-wrapper {
+        max-width: 568px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .date-bar {
+        justify-content: center;
+    }
+}
+
+/* ============================================
+   16. ANIMACIONES
+   ============================================ */
+.fade-in {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes highlightFadeIn {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* ============================================
+   17. PANEL DE SILLAS (BOTTOM SHEET)
+   ============================================ */
+
+/* Overlay oscuro */
+.seats-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 901;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.seats-overlay--visible {
+    display: block;
+    opacity: 1;
+}
+
+/* Panel principal */
+.seats-panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 83vh;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px 0px;
+}
+.seats-overlay--visible .seats-panel {
+    transform: translateY(0);
+}
+
+/* Encabezado del panel */
+.seats-panel__header {
+    padding: 20px 20px 10px;
+    position: relative;
+    flex-shrink: 0;
+}
+.seats-panel__title {
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(0, 0, 0);
+    font-family: var(--font-main);
+}
+.seats-panel__close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.seats-panel__close svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* Info del viaje */
+.seats-panel__trip-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 20px 15px;
+    flex-shrink: 0;
+    border-bottom: 1px solid #eee;
+}
+.seats-panel__trip-departure,
+.seats-panel__trip-arrival {
+    font-size: 14px;
+    color: rgb(35, 35, 35);
+}
+.seats-panel__trip-departure {
+    font-weight: 600;
+}
+.seats-panel__trip-arrival {
+    font-weight: 400;
+}
+.seats-panel__trip-routes {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(155, 155, 155);
+}
+.seats-panel__trip-date {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(35, 35, 35);
+    margin-left: auto;
+}
+.seats-panel__trip-connector {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 20px;
+}
+.seats-panel__trip-line {
+    height: 1px;
+    width: 100%;
+    background: repeating-linear-gradient(
+        to right,
+        rgb(200, 200, 200) 0, rgb(200, 200, 200) 4px,
+        transparent 4px, transparent 8px
+    );
+}
+
+/* Contenido scrollable */
+.seats-panel__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 10px;
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 15px 10px;
+    align-content: start;
+}
+
+/* Leyenda */
+.seats-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 10px;
+}
+.seats-legend__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+.seats-legend__box {
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.seats-legend__box--free {
+    background: #fff;
+    box-shadow: rgba(177, 177, 177, 0.5) 0px 2px 4px;
+}
+.seats-legend__box--selected {
+    background: linear-gradient(to left, rgb(0, 61, 117), rgb(0, 82, 156));
+}
+.seats-legend__box--occupied {
+    background: rgb(230, 230, 230);
+}
+.seats-legend__count {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgb(35, 35, 35);
+}
+.seats-legend__label {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(155, 155, 155);
+}
+
+/* Sección del mapa */
+.seats-map {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.seats-map__type {
+    font-size: 16px;
+    font-weight: 700;
+    color: rgb(35, 35, 35);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Contenedor del bus */
+.seats-bus {
+    width: 272px;
+    height: auto;
+    border: 1px solid rgb(230, 230, 230);
+    border-radius: 60px 60px 20px 20px;
+    background: rgba(255, 255, 255, 0.64);
+    padding: 20px 10px 10px;
+    overflow: visible;
+}
+
+/* Área del conductor */
+.seats-bus__front {
+    width: 250px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+    margin: 0 auto 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Grid de asientos */
+.seats-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 10px 0;
+}
+.seats-row {
+    display: flex;
+    justify-content: center;
+    width: 250px;
+    height: 45px;
+    margin: 0 auto;
+    gap: 0;
+    align-items: center;
+}
+.seats-row__left {
+    display: flex;
+    gap: 20px;
+}
+.seats-row__aisle {
+    width: 50px;
+    flex-shrink: 0;
+}
+.seats-row__right {
+    display: flex;
+    gap: 20px;
+}
+
+/* Asiento individual */
+.seat-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+.seat-btn--free {
+    background: rgb(255, 255, 255);
+    color: rgb(155, 155, 155);
+    box-shadow: rgba(177, 177, 177, 0.5) 0px 2px 4px;
+    cursor: pointer;
+}
+.seat-btn--free:hover {
+    box-shadow: rgba(177, 177, 177, 0.7) 0px 3px 6px;
+}
+.seat-btn--occupied {
+    background: rgb(230, 230, 230);
+    color: rgb(155, 155, 155);
+    cursor: default;
+    box-shadow: none;
+}
+.seat-btn--selected {
+    background: linear-gradient(to left, rgb(0, 61, 117), rgb(0, 82, 156));
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    box-shadow: none;
+}
+.seat-btn--empty {
+    visibility: hidden;
+}
+
+/* Barra inferior sticky */
+.seats-panel__footer {
+    flex-shrink: 0;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-top: 1px solid #eee;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+.seats-panel__footer-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.seats-panel__footer-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgb(35, 35, 35);
+}
+.seats-panel__footer-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(104, 104, 104);
+}
+.seats-panel__footer-details {
+    background: none;
+    border: none;
+    color: var(--secondary-red);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-main);
+    cursor: pointer;
+    padding: 6px 0;
+    margin-bottom: 8px;
+    display: block;
+    text-decoration: none;
+}
+.seats-panel__footer-details:hover {
+    text-decoration: underline;
+}
+.seats-panel__footer-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(115deg, rgb(0, 82, 156), rgb(0, 61, 117));
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font-main);
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.seats-panel__footer-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* Body scroll lock */
+body.seats-open {
+    overflow: hidden;
+}
+body.seats-open .date-bar {
+    display: none !important;
+}

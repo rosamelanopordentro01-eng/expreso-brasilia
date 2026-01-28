@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos de Pasajeros - Expreso Brasilia</title>
+    <link rel="stylesheet" href="css/passengers.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="psg-header">
+        <button class="psg-header__back" id="backBtn">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        </button>
+        <div class="psg-header__info">
+            <div class="psg-header__title">Datos para la compra</div>
+            <div class="psg-header__route" id="headerRoute">-</div>
+        </div>
+        <button class="psg-header__user">
+            <span class="psg-header__user-circle">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </span>
+        </button>
+    </header>
+
+    <!-- RESUMEN DEL VIAJE -->
+    <div class="psg-summary">
+        <div class="psg-summary__icon">
+            <svg viewBox="0 0 24 24"><path d="M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z"/></svg>
+        </div>
+        <div class="psg-summary__info">
+            <div class="psg-summary__label">Tu viaje de ida</div>
+            <div class="psg-summary__time" id="summaryTime">-</div>
+        </div>
+        <button class="psg-summary__details-btn" id="summaryDetailsBtn">Detalles</button>
+    </div>
+
+    <!-- TIMER -->
+    <div class="psg-timer">
+        <span class="psg-timer__text">Completa tu compra en:</span>
+        <span class="psg-timer__time" id="timerDisplay">15:00</span>
+    </div>
+
+    <!-- STEPPER -->
+    <div class="psg-stepper">
+        <div class="psg-stepper__left">
+            <span class="psg-stepper__current">Pasajeros</span>
+            <span class="psg-stepper__step">Paso 2 de 3</span>
+        </div>
+        <span class="psg-stepper__count" id="stepperCount">-</span>
+    </div>
+
+    <!-- SECCIÓN DE PASAJEROS -->
+    <div class="psg-section">
+        <h2 class="psg-section__title" id="sectionTitle">¿Quiénes viajan?</h2>
+        <p class="psg-section__subtitle" id="sectionSubtitle">1 a bordo</p>
+
+        <div id="passengerCards"></div>
+    </div>
+
+    <!-- SEGURO DE VIAJE -->
+    <div class="psg-insurance">
+        <div class="psg-insurance__info">
+            <div class="psg-insurance__title">Viaja más seguro</div>
+            <a class="psg-insurance__details" href="#">Detalles</a>
+        </div>
+        <div class="psg-insurance__price-wrap">
+            <div class="psg-insurance__price">$ 2.900 COP</div>
+            <div class="psg-insurance__unit">c/u</div>
+        </div>
+        <label class="psg-toggle">
+            <input type="checkbox" id="insuranceToggle" checked>
+            <span class="psg-toggle__slider"></span>
+        </label>
+    </div>
+
+    <!-- TÉRMINOS Y CONDICIONES -->
+    <div class="psg-terms">
+        <label class="psg-terms__check">
+            <input type="checkbox" class="psg-terms__checkbox" id="termsCheckbox">
+            <span class="psg-terms__text">
+                Declaro que los datos aportados cuando se trata de pasajeros menores de edad son veraces, y en todo caso exonero a Expreso Brasilia de la información aquí suministrada
+            </span>
+        </label>
+        <p class="psg-terms__minor">
+            Al momento de abordar el vehículo se deberá diligenciar un formulario o portar la autorización correspondiente para el transporte de menores, en caso de no cumplir con las indicaciones o no portar los documentos requeridos, la empresa se reserva el derecho de negarse a cumplir el contrato de transporte
+        </p>
+        <p class="psg-terms__agreement">
+            Al continuar estoy de acuerdo con los <a href="#">términos y condiciones</a>, <a href="#">políticas de menores, equipaje, mascotas</a> y la <a href="#">política de privacidad</a>.
+        </p>
+    </div>
+
+    <!-- FOOTER FIJO -->
+    <div class="psg-footer">
+        <button class="psg-footer__btn" id="nextBtn" disabled>
+            <span>Siguiente</span>
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+    </div>
+
+    <!-- MODAL TIMEOUT -->
+    <div class="psg-modal-overlay" id="timeoutModal">
+        <div class="psg-modal">
+            <div class="psg-modal__icon">&#9200;</div>
+            <h3 class="psg-modal__title">Tiempo agotado</h3>
+            <p class="psg-modal__text">Tu tiempo de reserva ha expirado. Por favor, vuelve a buscar tu viaje.</p>
+            <button class="psg-modal__btn" id="timeoutBtn">Buscar de nuevo</button>
+        </div>
+    </div>
+
+    <script src="js/passengers.js"></script>
+</body>
+</html>

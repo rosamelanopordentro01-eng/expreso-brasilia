@@ -364,9 +364,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const cityName = rawName.charAt(0).toUpperCase() + rawName.slice(1).toLowerCase();
         const cityUpperName = rawName.toUpperCase();
 
+        // Obtener departamento (si existe) o usar el mismo nombre de ciudad
+        const deptName = city.state || city.department || cityName;
+        const deptFormatted = deptName.charAt(0).toUpperCase() + deptName.slice(1).toLowerCase();
+
+        // Formato: "Ciudad, Departamento"
+        const displayValue = `${cityName}, ${deptFormatted}`;
+
         if (currentInputTarget === 'origen' && origenInput) {
-            origenInput.value = cityName;
-            selectedOriginCity = cityUpperName; // Guardar origen para sugerencias
+            origenInput.value = displayValue;
+            selectedOriginCity = cityUpperName;
+            // Agregar clases has-value e isActive para activar estilos
+            const origenField = document.getElementById('origenField');
+            if (origenField) {
+                origenField.classList.add('has-value');
+                origenField.classList.add('isActive');
+            }
             closeCityModalFn();
 
             // Abrir automáticamente modal de destino después de seleccionar origen
@@ -374,8 +387,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 openCityModal('destino');
             }, 300);
         } else if (currentInputTarget === 'destino' && destinoInput) {
-            destinoInput.value = cityName;
+            destinoInput.value = displayValue;
             selectedDestinationCity = cityUpperName;
+            // Agregar clases has-value e isActive para activar estilos
+            const destinoField = document.getElementById('destinoField');
+            if (destinoField) {
+                destinoField.classList.add('has-value');
+                destinoField.classList.add('isActive');
+            }
             closeCityModalFn();
 
             // Abrir automáticamente calendario después de seleccionar destino
@@ -763,10 +782,21 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedOriginCity = selectedDestinationCity;
             selectedDestinationCity = tempCity;
 
-            // Animación visual
-            swapBtn.style.transform = 'rotate(180deg)';
+            // Actualizar clases has-value después del intercambio
+            const origenField = document.getElementById('origenField');
+            const destinoField = document.getElementById('destinoField');
+
+            if (origenField) {
+                origenField.classList.toggle('has-value', origenInput.value.trim() !== '');
+            }
+            if (destinoField) {
+                destinoField.classList.toggle('has-value', destinoInput.value.trim() !== '');
+            }
+
+            // Animación visual (mantener translateY para centrado)
+            swapBtn.style.transform = 'translateY(-50%) rotate(180deg)';
             setTimeout(() => {
-                swapBtn.style.transform = 'rotate(0deg)';
+                swapBtn.style.transform = 'translateY(-50%) rotate(0deg)';
             }, 300);
         });
     }
@@ -783,27 +813,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para cambiar a Estado 2 (con fecha seleccionada)
     function switchToDateState2(dateStr) {
-        if (dateCard && fechaIdaInput) {
-            // Agregar clase has-date para mostrar Estado 2
+        pickerSelectedDate = new Date(dateStr + 'T00:00:00');
+
+        if (dateCard) {
             dateCard.classList.add('has-date');
-            // Establecer la fecha
-            fechaIdaInput.value = dateStr;
-            pickerSelectedDate = new Date(dateStr + 'T00:00:00');
+            if (fechaIdaInput) fechaIdaInput.value = dateStr;
         }
     }
 
     // Función para volver a Estado 1 (sin fecha)
     function switchToDateState1() {
-        if (dateCard && fechaIdaInput) {
-            // Remover clase has-date para volver a Estado 1
+        pickerSelectedDate = null;
+
+        if (dateCard) {
             dateCard.classList.remove('has-date');
-            // Limpiar fecha
-            fechaIdaInput.value = '';
-            pickerSelectedDate = null;
-            // Limpiar fecha de regreso también
-            if (fechaRegresoInput) {
-                fechaRegresoInput.value = '';
-            }
+            if (fechaIdaInput) fechaIdaInput.value = '';
+            if (fechaRegresoInput) fechaRegresoInput.value = '';
             // Restablecer botón activo a "Hoy"
             const btns = dateCard.querySelectorAll('.date-buttons .date-btn');
             btns.forEach((btn, index) => {
@@ -931,7 +956,7 @@ document.addEventListener('DOMContentLoaded', function() {
         input.min = today;
     });
 
-    // Submit del formulario - Usar API de Node.js con endpoint GET
+    // Submit del formulario
     if (searchForm) {
         searchForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -950,35 +975,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Mostrar loading
+            // Mostrar loading en botón
             const btnSearch = searchForm.querySelector('.search-btn');
             const originalHTML = btnSearch.innerHTML;
-            btnSearch.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+            btnSearch.innerHTML = '<svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4m10-10h-4M6 12H2m15.07-7.07l-2.83 2.83M9.76 14.24l-2.83 2.83m12.02 0l-2.83-2.83M9.76 9.76L6.93 6.93"/></svg> Buscando...';
             btnSearch.disabled = true;
 
-            try {
-                const params = new URLSearchParams({
-                    origin: origen,
-                    destination: destino,
-                    date: fecha
-                });
+            // Redirigir a página de resultados
+            const params = new URLSearchParams({
+                origin: origen,
+                destination: destino,
+                date: fecha
+            });
 
-                const response = await fetch(`${API_BASE_URL}/search?${params}`);
-                const data = await response.json();
-
-                if (data.success && data.trips) {
-                    // Mostrar resultados
-                    showSearchResults(data);
-                } else {
-                    alert(data.error || data.message || 'No se encontraron viajes para esta ruta');
-                }
-            } catch (error) {
-                console.error('Error en búsqueda:', error);
-                alert('Error de conexión. Por favor intente nuevamente.');
-            } finally {
-                btnSearch.innerHTML = originalHTML;
-                btnSearch.disabled = false;
-            }
+            window.location.href = `/results.html?${params.toString()}`;
         });
     }
 
@@ -1474,6 +1484,66 @@ document.addEventListener('DOMContentLoaded', function() {
     // INICIALIZACIÓN
     // ========================================
 
+    // Campos vacíos por defecto (como en producción)
+    // Los placeholders "Buscar Origen" y "Buscar Destino" se muestran
+
+    // NO pre-seleccionar fecha - mostrar botones "Hoy | Mañana | Elegir"
+    if (dateCard) {
+        dateCard.classList.remove('has-date');
+    }
+
+    // Función para actualizar estado visual del campo (mostrar/ocultar botón X)
+    function updateFieldState(input, fieldId) {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            if (input.value && input.value.trim() !== '') {
+                field.classList.add('has-value');
+            } else {
+                field.classList.remove('has-value');
+            }
+        }
+    }
+
+    // Inicializar estado de los campos
+    const origenField = document.getElementById('origenField');
+    const destinoField = document.getElementById('destinoField');
+
+    // Event listeners para botones de limpiar campos
+    const clearOrigenBtn = document.getElementById('clearOrigen');
+    const clearDestinoBtn = document.getElementById('clearDestino');
+
+    if (clearOrigenBtn) {
+        clearOrigenBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (origenInput) {
+                origenInput.value = '';
+                selectedOriginCity = null;
+                updateFieldState(origenInput, 'origenField');
+                // Remover isActive al limpiar
+                const origenField = document.getElementById('origenField');
+                if (origenField) origenField.classList.remove('isActive');
+            }
+        });
+    }
+
+    if (clearDestinoBtn) {
+        clearDestinoBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (destinoInput) {
+                destinoInput.value = '';
+                selectedDestinationCity = null;
+                updateFieldState(destinoInput, 'destinoField');
+                // Remover isActive al limpiar
+                const destinoField = document.getElementById('destinoField');
+                if (destinoField) destinoField.classList.remove('isActive');
+            }
+        });
+    }
+
+    // Actualizar estado inicial de los campos
+    if (origenInput) updateFieldState(origenInput, 'origenField');
+    if (destinoInput) updateFieldState(destinoInput, 'destinoField');
+
     // Cargar datos iniciales desde la API
     loadDestinations();
     loadNews();
@@ -1489,6 +1559,12 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(err => {
             console.warn('Servidor Node.js no disponible, usando modo estático');
         });
+
+    // Copyright dinámico
+    const copyEl = document.querySelector('.footer-copyright');
+    if (copyEl) {
+        copyEl.textContent = copyEl.textContent.replace('2020-2026', '2020-' + new Date().getFullYear());
+    }
 
     console.log('Expreso Brasilia - Sitio web cargado correctamente');
 });

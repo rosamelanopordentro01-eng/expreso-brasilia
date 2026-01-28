@@ -1,0 +1,602 @@
+/* ================================================================
+   EXPRESO BRASILIA - FORMULARIO DE PASAJEROS
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgb(35, 35, 35);
+    background: rgb(250, 250, 250);
+    padding-bottom: 80px;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.psg-header {
+    background: rgb(0, 82, 156);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    position: sticky;
+    top: 0;
+    z-index: 11;
+    gap: 10px;
+}
+.psg-header__back {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+}
+.psg-header__back svg { width: 18px; height: 18px; fill: white; }
+.psg-header__info {
+    flex: 1;
+    min-width: 0;
+}
+.psg-header__title {
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+.psg-header__route {
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+    opacity: 0.9;
+}
+.psg-header__user {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+}
+.psg-header__user-circle {
+    width: 32px;
+    height: 32px;
+    background: #FFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.psg-header__user-circle svg { width: 18px; height: 18px; fill: rgb(0, 82, 156); }
+
+/* ============================================
+   RESUMEN DEL VIAJE
+   ============================================ */
+.psg-summary {
+    background: white;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #eee;
+}
+.psg-summary__icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.psg-summary__icon svg { width: 24px; height: 24px; fill: rgb(0, 82, 156); }
+.psg-summary__info { flex: 1; min-width: 0; }
+.psg-summary__label {
+    font-size: 11px;
+    font-weight: 700;
+    color: rgb(35, 35, 35);
+    text-transform: uppercase;
+}
+.psg-summary__time {
+    font-size: 14px;
+    font-weight: 400;
+    color: rgb(35, 35, 35);
+}
+.psg-summary__details-btn {
+    background: white;
+    border: 1px solid rgb(191, 8, 17);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(191, 8, 17);
+    padding: 0 10px;
+    height: 26px;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-weight: 600;
+}
+
+/* ============================================
+   TIMER
+   ============================================ */
+.psg-timer {
+    background: rgb(230, 230, 230);
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    position: sticky;
+    top: 60px;
+    z-index: 10;
+}
+.psg-timer__text {
+    font-size: 17px;
+    font-weight: 700;
+    color: rgb(35, 35, 35);
+}
+.psg-timer__time {
+    font-size: 17px;
+    font-weight: 700;
+    color: rgb(0, 82, 156);
+}
+.psg-timer__time--urgent {
+    color: rgb(191, 8, 17);
+}
+
+/* ============================================
+   STEPPER
+   ============================================ */
+.psg-stepper {
+    background: white;
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.psg-stepper__left {
+    display: flex;
+    flex-direction: column;
+}
+.psg-stepper__current {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(35, 35, 35);
+}
+.psg-stepper__step {
+    font-size: 14px;
+    color: rgb(35, 35, 35);
+}
+.psg-stepper__count {
+    font-size: 14px;
+    color: rgb(35, 35, 35);
+}
+
+/* ============================================
+   SECCIÓN PASAJEROS
+   ============================================ */
+.psg-section {
+    padding: 15px;
+}
+.psg-section__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(35, 35, 35);
+    margin-bottom: 2px;
+}
+.psg-section__subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(35, 35, 35);
+    margin-bottom: 15px;
+}
+
+/* ============================================
+   TARJETA DE PASAJERO
+   ============================================ */
+.psg-card {
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.psg-card__header {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    gap: 10px;
+    position: relative;
+    cursor: pointer;
+}
+.psg-card__indicator {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 25px;
+    font-weight: 700;
+    color: rgb(0, 82, 156);
+    opacity: 0.2;
+    line-height: 1;
+}
+.psg-card__seat-badge {
+    width: 25px;
+    height: 25px;
+    background: linear-gradient(to left, #003d75, #00529c);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(245, 245, 245);
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+.psg-card__header-info { flex: 1; min-width: 0; }
+.psg-card__header-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(35, 35, 35);
+}
+.psg-card__header-type {
+    font-size: 14px;
+    color: rgb(104, 104, 104);
+}
+.psg-card__header-seat {
+    font-size: 14px;
+    color: rgb(104, 104, 104);
+}
+.psg-card__toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 16px;
+    color: rgb(104, 104, 104);
+    flex-shrink: 0;
+    margin-right: 30px;
+}
+.psg-card__toggle-text {
+    font-size: 16px;
+    color: rgb(104, 104, 104);
+}
+.psg-card__toggle svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s;
+}
+.psg-card__toggle--collapsed svg {
+    transform: rotate(180deg);
+}
+.psg-card__body {
+    padding: 0 15px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.psg-card__body--hidden {
+    display: none;
+}
+
+/* ============================================
+   CAMPOS DE FORMULARIO
+   ============================================ */
+.psg-field {
+    position: relative;
+}
+.psg-field__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgb(104, 104, 104);
+    margin-bottom: 4px;
+}
+.psg-input {
+    width: 100%;
+    height: 50px;
+    background: rgb(255, 255, 255);
+    border: none;
+    border-bottom: 1px solid rgb(230, 230, 230);
+    border-radius: 14px;
+    box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 5px 0px;
+    padding: 0 40px 0 15px;
+    font-size: 16px;
+    color: rgb(35, 35, 35);
+    font-family: 'Source Sans Pro', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.psg-input:focus {
+    border-bottom: 2px solid rgb(0, 82, 156);
+}
+.psg-input::placeholder {
+    color: rgb(155, 155, 155);
+}
+.psg-select {
+    width: 100%;
+    height: 50px;
+    background: rgb(255, 255, 255);
+    border: none;
+    border-bottom: 1px solid rgb(230, 230, 230);
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.12) 2px 2px 5px 0px;
+    padding: 0 35px 0 15px;
+    font-size: 16px;
+    color: rgb(35, 35, 35);
+    font-family: 'Source Sans Pro', sans-serif;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239B9B9B' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+.psg-select:focus {
+    border-bottom: 2px solid rgb(0, 82, 156);
+}
+.psg-field__clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background: rgb(230, 230, 230);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: rgb(104, 104, 104);
+    line-height: 1;
+}
+.psg-field__clear--visible {
+    display: flex;
+}
+.psg-field--has-label .psg-field__clear {
+    top: calc(50% + 10px);
+}
+
+/* Row de fecha (3 selects en fila) */
+.psg-date-row {
+    display: flex;
+    gap: 8px;
+}
+.psg-date-row .psg-select {
+    flex: 1;
+}
+
+/* Row de teléfono (select + input) */
+.psg-phone-row {
+    display: flex;
+    gap: 8px;
+}
+.psg-phone-row .psg-select {
+    width: 45%;
+    flex-shrink: 0;
+}
+.psg-phone-row .psg-field {
+    flex: 1;
+}
+
+/* ============================================
+   SEGURO DE VIAJE
+   ============================================ */
+.psg-insurance {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 0 15px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.psg-insurance__info { flex: 1; }
+.psg-insurance__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(35, 35, 35);
+}
+.psg-insurance__details {
+    font-size: 14px;
+    color: rgb(0, 82, 156);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+.psg-insurance__price-wrap {
+    text-align: center;
+    flex-shrink: 0;
+}
+.psg-insurance__price {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgb(35, 35, 35);
+}
+.psg-insurance__unit {
+    font-size: 12px;
+    color: rgb(104, 104, 104);
+}
+/* Toggle switch */
+.psg-toggle {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+}
+.psg-toggle input { display: none; }
+.psg-toggle__slider {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgb(200, 200, 200);
+    border-radius: 26px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.psg-toggle__slider::after {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.psg-toggle input:checked + .psg-toggle__slider {
+    background: rgb(191, 8, 17);
+}
+.psg-toggle input:checked + .psg-toggle__slider::after {
+    transform: translateX(22px);
+}
+
+/* ============================================
+   TÉRMINOS Y CONDICIONES
+   ============================================ */
+.psg-terms {
+    padding: 0 15px 15px;
+}
+.psg-terms__check {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.psg-terms__checkbox {
+    width: 20px;
+    height: 20px;
+    margin-top: 3px;
+    flex-shrink: 0;
+    accent-color: rgb(0, 82, 156);
+}
+.psg-terms__text {
+    font-size: 14px;
+    color: rgb(35, 35, 35);
+    line-height: 1.4;
+}
+.psg-terms__minor {
+    font-size: 13px;
+    color: rgb(104, 104, 104);
+    line-height: 1.4;
+    margin-top: 8px;
+    padding-left: 30px;
+}
+.psg-terms__agreement {
+    font-size: 13px;
+    color: rgb(104, 104, 104);
+    line-height: 1.4;
+    margin-top: 8px;
+    padding-left: 30px;
+}
+.psg-terms__agreement a {
+    color: rgb(191, 8, 17);
+    text-decoration: none;
+    font-weight: 600;
+}
+.psg-terms__agreement a:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   BOTÓN SIGUIENTE (FOOTER FIJO)
+   ============================================ */
+.psg-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+.psg-footer__btn {
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(270deg, rgb(0, 61, 117) 0px, rgb(0, 82, 156) 40%);
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Source Sans Pro', sans-serif;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.2s;
+}
+.psg-footer__btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+.psg-footer__btn svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+}
+
+/* ============================================
+   MODAL TIMEOUT
+   ============================================ */
+.psg-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+.psg-modal-overlay--visible {
+    display: flex;
+}
+.psg-modal {
+    background: white;
+    border-radius: 14px;
+    padding: 30px 20px;
+    max-width: 320px;
+    width: 90%;
+    text-align: center;
+}
+.psg-modal__icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+.psg-modal__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(35, 35, 35);
+    margin-bottom: 8px;
+}
+.psg-modal__text {
+    font-size: 14px;
+    color: rgb(104, 104, 104);
+    margin-bottom: 20px;
+}
+.psg-modal__btn {
+    background: linear-gradient(115deg, rgb(0, 82, 156), rgb(0, 61, 117));
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Source Sans Pro', sans-serif;
+    cursor: pointer;
+}

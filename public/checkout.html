@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Expreso Brasilia</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .checkout-container {
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .checkout-header {
+            background: linear-gradient(135deg, #003366 0%, #1a5a96 100%);
+            color: white;
+            padding: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .checkout-header-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .route-info h1 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .route-info p {
+            font-size: 12px;
+            margin: 4px 0 0;
+            opacity: 0.9;
+        }
+
+        .timer-bar {
+            background: #fff;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .timer-text {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .timer-countdown {
+            font-size: 18px;
+            font-weight: 700;
+            color: #003366;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            padding: 20px 16px;
+            background: #fff;
+            gap: 8px;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            max-width: 100px;
+        }
+
+        .step-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .step.completed .step-circle {
+            background: #003366;
+            color: white;
+        }
+
+        .step.active .step-circle {
+            background: #003366;
+            color: white;
+            box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.2);
+        }
+
+        .step.pending .step-circle {
+            background: #e0e0e0;
+            color: #999;
+        }
+
+        .step-label {
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+        }
+
+        .step.active .step-label,
+        .step.completed .step-label {
+            color: #003366;
+            font-weight: 600;
+        }
+
+        .step-connector {
+            flex: 1;
+            height: 2px;
+            background: #e0e0e0;
+            margin-top: 16px;
+            max-width: 40px;
+        }
+
+        .step-connector.completed {
+            background: #003366;
+        }
+
+        .checkout-main {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-bottom: 280px;
+        }
+
+        .passenger-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .passenger-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+        }
+
+        .passenger-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .seat-badge {
+            background: #003366;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .passenger-info h3 {
+            margin: 0;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .passenger-info span {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .toggle-icon {
+            font-size: 20px;
+            color: #666;
+            transition: transform 0.3s;
+        }
+
+        .passenger-card.collapsed .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Comentado para que el formulario siempre esté visible
+        .passenger-card.collapsed .passenger-form {
+            display: none;
+        }
+        */
+
+        .passenger-form {
+            padding: 16px;
+            display: block !important;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            max-width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #003366;
+            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+        }
+
+        .form-group input.error,
+        .form-group select.error {
+            border-color: #dc3545;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .date-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .date-row select {
+            flex: 1;
+            min-width: 70px;
+        }
+
+        .phone-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .phone-group .country-code {
+            width: 100px;
+            min-width: 100px;
+        }
+
+        .phone-group .phone-input {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .insurance-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 16px;
+        }
+
+        .insurance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .insurance-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .insurance-price {
+            font-size: 15px;
+            font-weight: 700;
+            color: #003366;
+        }
+
+        .insurance-description {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .insurance-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #003366;
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .terms-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 16px;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: #003366;
+        }
+
+        .terms-text {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .terms-text a {
+            color: #003366;
+            text-decoration: none;
+        }
+
+        .payment-summary {
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            padding: 16px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .summary-row.total {
+            padding-top: 12px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 12px;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .summary-value {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .summary-row.total .summary-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .summary-row.total .summary-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #003366;
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #003366 0%, #1a5a96 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
+        }
+
+        .continue-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .trip-details-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .trip-details-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .trip-details-header img {
+            height: 32px;
+        }
+
+        .trip-route {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .trip-date {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .trip-time {
+            font-size: 20px;
+            font-weight: 700;
+            color: #003366;
+        }
+
+        .trip-service {
+            display: inline-block;
+            background: #f0f4f8;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #003366;
+            margin-top: 8px;
+        }
+
+        .back-link {
+            text-align: center;
+            font-size: 13px;
+            color: #003366;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .checkout-layout {
+                display: flex;
+                max-width: 1100px;
+                margin: 0 auto;
+                gap: 24px;
+                padding: 24px;
+            }
+
+            .checkout-main {
+                flex: 1;
+                padding-bottom: 16px;
+            }
+
+            .trip-sidebar {
+                width: 340px;
+                position: sticky;
+                top: 100px;
+                height: fit-content;
+            }
+
+            .payment-summary {
+                position: static;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                border-top: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <header class="checkout-header">
+            <div class="checkout-header-content">
+                <button class="back-btn" onclick="history.back()">←</button>
+                <div class="route-info">
+                    <h1>Datos para la compra</h1>
+                    <p id="routeDisplay">CARTAGENA - BOGOTÁ</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="timer-bar">
+            <span class="timer-text">Completa tu compra en:</span>
+            <span class="timer-countdown" id="countdown">15:00</span>
+        </div>
+
+        <div class="progress-steps">
+            <div class="step completed">
+                <div class="step-circle">✓</div>
+                <span class="step-label">Sillas de Ida</span>
+            </div>
+            <div class="step-connector completed"></div>
+            <div class="step active">
+                <div class="step-circle">2</div>
+                <span class="step-label">Pasajeros</span>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step pending">
+                <div class="step-circle">3</div>
+                <span class="step-label">Pago</span>
+            </div>
+        </div>
+
+        <div class="checkout-layout">
+            <main class="checkout-main">
+                <h2 style="font-size: 16px; color: #333; margin: 0 0 8px;">¿Quiénes viajan?</h2>
+                <p style="font-size: 14px; color: #666; margin: 0 0 16px;">1 pasajero a bordo</p>
+
+                <div class="passenger-card" id="passenger1">
+                    <div class="passenger-header" onclick="togglePassenger('passenger1')">
+                        <div class="passenger-title">
+                            <div class="seat-badge" id="seatNumber">5</div>
+                            <div class="passenger-info">
+                                <h3>Pasajero 1</h3>
+                                <span>Adulto • Asiento <span id="seatDisplay">5</span></span>
+                            </div>
+                        </div>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <form class="passenger-form" id="passengerForm">
+                        <div class="form-group">
+                            <label for="firstName">Nombre(s) *</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="Nombre(s)" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName">Apellido Paterno *</label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Apellido Paterno" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="secondLastName">Apellido Materno (opcional)</label>
+                            <input type="text" id="secondLastName" name="secondLastName" placeholder="Apellido Materno">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Correo electrónico *</label>
+                            <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Fecha de nacimiento *</label>
+                            <div class="date-row">
+                                <select id="birthDay" name="birthDay" required>
+                                    <option value="">Día</option>
+                                </select>
+                                <select id="birthMonth" name="birthMonth" required>
+                                    <option value="">Mes</option>
+                                    <option value="01">01 - Ene</option>
+                                    <option value="02">02 - Feb</option>
+                                    <option value="03">03 - Mar</option>
+                                    <option value="04">04 - Abr</option>
+                                    <option value="05">05 - May</option>
+                                    <option value="06">06 - Jun</option>
+                                    <option value="07">07 - Jul</option>
+                                    <option value="08">08 - Ago</option>
+                                    <option value="09">09 - Sep</option>
+                                    <option value="10">10 - Oct</option>
+                                    <option value="11">11 - Nov</option>
+                                    <option value="12">12 - Dic</option>
+                                </select>
+                                <select id="birthYear" name="birthYear" required>
+                                    <option value="">Año</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nationality">Nacionalidad *</label>
+                            <input type="text" id="nationality" name="nationality" placeholder="Colombia" value="Colombia">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="documentType">Tipo de documento *</label>
+                            <select id="documentType" name="documentType" required>
+                                <option value="CC">Cédula de ciudadanía</option>
+                                <option value="CE">Cédula de extranjería</option>
+                                <option value="PS">Pasaporte</option>
+                                <option value="TI">Tarjeta de identidad</option>
+                                <option value="RC">Registro civil</option>
+                                <option value="PEP">Permiso Especial de Permanencia</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="documentId">Número de documento *</label>
+                            <input type="text" id="documentId" name="documentId" placeholder="Número de documento" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Teléfono celular *</label>
+                            <div class="phone-group">
+                                <select id="countryCode" name="countryCode" class="country-code">
+                                    <option value="+57">🇨🇴 +57</option>
+                                    <option value="+1">🇺🇸 +1</option>
+                                    <option value="+52">🇲🇽 +52</option>
+                                    <option value="+55">🇧🇷 +55</option>
+                                    <option value="+34">🇪🇸 +34</option>
+                                    <option value="+58">🇻🇪 +58</option>
+                                    <option value="+51">🇵🇪 +51</option>
+                                    <option value="+593">🇪🇨 +593</option>
+                                </select>
+                                <input type="tel" id="phone" name="phone" class="phone-input" placeholder="300 123 4567" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Género *</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Seleccionar</option>
+                                <option value="male">Masculino</option>
+                                <option value="female">Femenino</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="insurance-card">
+                    <div class="insurance-header">
+                        <span class="insurance-title">🛡️ Viaja más seguro</span>
+                        <span class="insurance-price">$ 2.900 COP c/u</span>
+                    </div>
+                    <p class="insurance-description">Protege tu viaje con cobertura en caso de accidentes, pérdida de equipaje y más.</p>
+                    <div class="insurance-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="insuranceToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span>Agregar seguro de viaje</span>
+                    </div>
+                </div>
+
+                <div class="terms-section">
+                    <label class="terms-checkbox">
+                        <input type="checkbox" id="termsCheckbox" required>
+                        <span class="terms-text">
+                            Declaro que los datos aportados son veraces. Al continuar estoy de acuerdo con los
+                            <a href="#" target="_blank">términos y condiciones</a>,
+                            <a href="#" target="_blank">políticas de menores, equipaje y mascotas</a> y la
+                            <a href="#" target="_blank">política de privacidad</a>.
+                        </span>
+                    </label>
+                </div>
+            </main>
+
+            <aside class="trip-sidebar">
+                <div class="trip-details-card">
+                    <div class="trip-details-header">
+                        <img src="images/premium-plus.svg" alt="Premium Plus" onerror="this.style.display='none'">
+                        <span style="font-weight: 600; color: #003366;">PREMIUM PLUS</span>
+                    </div>
+                    <div class="trip-route" id="tripRoute">CARTAGENA - BOGOTÁ</div>
+                    <div class="trip-date" id="tripDate">29 Ene 2026</div>
+                    <div class="trip-time" id="tripTime">02:00 PM</div>
+                    <span class="trip-service">Preferencial de Lujo</span>
+                </div>
+
+                <div class="payment-summary">
+                    <div class="summary-row">
+                        <span class="summary-label">1 Adulto</span>
+                        <span class="summary-value" id="adultPrice">$ 184.000 COP</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Descuento anticipado</span>
+                        <span class="summary-value" style="color: #28a745;">-$ 35.000 COP</span>
+                    </div>
+                    <div class="summary-row" id="insuranceRow" style="display: none;">
+                        <span class="summary-label">Seguro de viaje</span>
+                        <span class="summary-value">$ 2.900 COP</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span class="summary-label">Total a pagar</span>
+                        <span class="summary-value" id="totalPrice">$ 149.000 COP</span>
+                    </div>
+                    <button class="continue-btn" id="continueBtn" onclick="proceedToPayment()" disabled>
+                        Siguiente →
+                    </button>
+                    <p class="back-link" onclick="history.back()">← Regresar a horarios</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            populateDays();
+            populateYears();
+            startCountdown();
+            loadTripData();
+            setupFormValidation();
+        });
+
+        function loadTripData() {
+            // Cargar datos desde localStorage (guardados por passengers.js)
+            const bookingDataRaw = localStorage.getItem('bookingData');
+            if (!bookingDataRaw) {
+                window.location.href = '/';
+                return;
+            }
+
+            const bookingData = JSON.parse(bookingDataRaw);
+            const origin = bookingData.origin || 'BOGOTA';
+            const destination = bookingData.destination || 'CARTAGENA';
+            const departureTime = bookingData.departureTime || '02:00 PM';
+            const seats = bookingData.selectedSeats || [5];
+            const totalPrice = bookingData.totalPrice || 149000;
+            const passengers = bookingData.passengers || [];
+
+            // Formatear fecha
+            const fullMonths = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+            let dateLabel = bookingData.date || '29 Ene 2026';
+            if (bookingData.date) {
+                const d = new Date(bookingData.date + 'T00:00:00');
+                dateLabel = d.getDate() + ' ' + fullMonths[d.getMonth()].charAt(0).toUpperCase() + fullMonths[d.getMonth()].slice(1,3) + ' ' + d.getFullYear();
+            }
+
+            document.getElementById('routeDisplay').textContent = origin.toUpperCase() + ' - ' + destination.toUpperCase();
+            document.getElementById('tripRoute').textContent = origin.toUpperCase() + ' - ' + destination.toUpperCase();
+            document.getElementById('tripDate').textContent = dateLabel;
+            document.getElementById('tripTime').textContent = departureTime;
+            document.getElementById('seatNumber').textContent = seats[0];
+            document.getElementById('seatDisplay').textContent = seats[0];
+            document.getElementById('totalPrice').textContent = '$ ' + parseInt(totalPrice).toLocaleString('es-CO') + ' COP';
+            document.getElementById('adultPrice').textContent = '$ ' + parseInt(totalPrice + 35000).toLocaleString('es-CO') + ' COP';
+
+            // Actualizar cantidad de pasajeros
+            const passengerCount = seats.length;
+            document.querySelector('.checkout-main h2 + p').textContent = passengerCount + ' pasajero' + (passengerCount > 1 ? 's' : '') + ' a bordo';
+            document.querySelector('.summary-label').textContent = passengerCount + ' Adulto' + (passengerCount > 1 ? 's' : '');
+
+            // Pre-llenar el formulario con datos del primer pasajero
+            if (passengers.length > 0) {
+                const p = passengers[0];
+                if (p.firstName) document.getElementById('firstName').value = p.firstName;
+                if (p.lastName) document.getElementById('lastName').value = p.lastName;
+                if (p.lastNameMaternal) document.getElementById('secondLastName').value = p.lastNameMaternal;
+                if (p.email) document.getElementById('email').value = p.email;
+                if (p.birthDay) document.getElementById('birthDay').value = p.birthDay.toString().padStart(2, '0');
+                if (p.birthMonth) document.getElementById('birthMonth').value = p.birthMonth.toString().padStart(2, '0');
+                if (p.birthYear) document.getElementById('birthYear').value = p.birthYear;
+                if (p.nationality) document.getElementById('nationality').value = p.nationality;
+                if (p.docType) document.getElementById('documentType').value = p.docType;
+                if (p.docNumber) document.getElementById('documentId').value = p.docNumber;
+                if (p.phone) document.getElementById('phone').value = p.phone;
+                if (p.phoneCode) document.getElementById('countryCode').value = p.phoneCode;
+                if (p.gender) document.getElementById('gender').value = p.gender === 'M' ? 'male' : 'female';
+            }
+
+            // Guardar precio base para cálculos
+            window.basePrice = totalPrice;
+
+            // Asegurar que el formulario esté visible
+            const passengerCard = document.getElementById('passenger1');
+            if (passengerCard) {
+                passengerCard.classList.remove('collapsed');
+            }
+        }
+
+        function populateDays() {
+            const daySelect = document.getElementById('birthDay');
+            for (let i = 1; i <= 31; i++) {
+                const option = document.createElement('option');
+                option.value = i.toString().padStart(2, '0');
+                option.textContent = i.toString().padStart(2, '0');
+                daySelect.appendChild(option);
+            }
+        }
+
+        function populateYears() {
+            const yearSelect = document.getElementById('birthYear');
+            const currentYear = new Date().getFullYear();
+            for (let year = currentYear; year >= 1926; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            }
+        }
+
+        let timeLeft = 15 * 60;
+        function startCountdown() {
+            const countdownEl = document.getElementById('countdown');
+            const timer = setInterval(function() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                countdownEl.textContent = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    alert('El tiempo para completar tu compra ha expirado.');
+                    window.location.href = 'results.html';
+                }
+                if (timeLeft <= 60) {
+                    countdownEl.style.color = '#dc3545';
+                }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function togglePassenger(cardId) {
+            document.getElementById(cardId).classList.toggle('collapsed');
+        }
+
+        function setupFormValidation() {
+            const form = document.getElementById('passengerForm');
+            const termsCheckbox = document.getElementById('termsCheckbox');
+            const insuranceToggle = document.getElementById('insuranceToggle');
+            const continueBtn = document.getElementById('continueBtn');
+            const insuranceRow = document.getElementById('insuranceRow');
+            const totalPriceEl = document.getElementById('totalPrice');
+
+            const requiredFields = form.querySelectorAll('[required]');
+            requiredFields.forEach(function(field) {
+                field.addEventListener('input', validateForm);
+                field.addEventListener('change', validateForm);
+            });
+
+            termsCheckbox.addEventListener('change', validateForm);
+
+            insuranceToggle.addEventListener('change', function() {
+                const basePrice = window.basePrice || 149000;
+                const insurancePrice = 2900;
+                if (this.checked) {
+                    insuranceRow.style.display = 'flex';
+                    totalPriceEl.textContent = '$ ' + (basePrice + insurancePrice).toLocaleString('es-CO') + ' COP';
+                } else {
+                    insuranceRow.style.display = 'none';
+                    totalPriceEl.textContent = '$ ' + basePrice.toLocaleString('es-CO') + ' COP';
+                }
+            });
+
+            function validateForm() {
+                let isValid = true;
+                requiredFields.forEach(function(field) {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                    }
+                });
+                if (!termsCheckbox.checked) {
+                    isValid = false;
+                }
+                continueBtn.disabled = !isValid;
+            }
+        }
+
+        function proceedToPayment() {
+            const form = document.getElementById('passengerForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            localStorage.setItem('passengerData', JSON.stringify(data));
+            localStorage.setItem('tripData', JSON.stringify({
+                origin: document.getElementById('routeDisplay').textContent.split(' - ')[0],
+                destination: document.getElementById('routeDisplay').textContent.split(' - ')[1],
+                date: document.getElementById('tripDate').textContent,
+                time: document.getElementById('tripTime').textContent,
+                seat: document.getElementById('seatNumber').textContent,
+                total: document.getElementById('totalPrice').textContent,
+                insurance: document.getElementById('insuranceToggle').checked
+            }));
+            window.location.href = 'payment.html';
+        }
+    </script>
+</body>
+</html>
