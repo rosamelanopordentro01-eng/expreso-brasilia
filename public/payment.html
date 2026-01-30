@@ -917,37 +917,163 @@
             min-height: 48px;
         }
 
-        /* Loading spinner para PSE */
+        /* Animación Moderna: Transferencia Bancaria */
         .pse-spinner {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 24px;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .pse-spinner::before,
-        .pse-spinner::after {
+        /* Círculo central con logo */
+        .pse-center-circle {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #00529c 0%, #003d7a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 10px 40px rgba(0, 82, 156, 0.4);
+        }
+
+        .pse-center-circle svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Ondas de conexión */
+        .pse-wave {
+            position: absolute;
+            border: 2px solid #00529c;
+            border-radius: 50%;
+            animation: waveExpand 2s ease-out infinite;
+            opacity: 0;
+        }
+
+        .pse-wave:nth-child(1) { width: 100px; height: 100px; animation-delay: 0s; }
+        .pse-wave:nth-child(2) { width: 130px; height: 130px; animation-delay: 0.4s; }
+        .pse-wave:nth-child(3) { width: 160px; height: 160px; animation-delay: 0.8s; }
+        .pse-wave:nth-child(4) { width: 190px; height: 190px; animation-delay: 1.2s; }
+
+        @keyframes waveExpand {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        /* Partículas flotantes */
+        .pse-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .pse-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #00a8ff;
+            border-radius: 50%;
+            animation: particleFloat 3s ease-in-out infinite;
+        }
+
+        .pse-particle:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+        .pse-particle:nth-child(2) { top: 20%; right: 15%; animation-delay: 0.5s; }
+        .pse-particle:nth-child(3) { bottom: 25%; left: 10%; animation-delay: 1s; }
+        .pse-particle:nth-child(4) { bottom: 15%; right: 20%; animation-delay: 1.5s; }
+        .pse-particle:nth-child(5) { top: 50%; left: 5%; animation-delay: 0.3s; }
+        .pse-particle:nth-child(6) { top: 40%; right: 5%; animation-delay: 0.8s; }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-15px) scale(1.3); opacity: 1; }
+        }
+
+        /* Anillo giratorio */
+        .pse-ring {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border: 3px solid transparent;
+            border-top-color: #00a8ff;
+            border-right-color: #00a8ff;
+            border-radius: 50%;
+            animation: ringRotate 1.5s linear infinite;
+        }
+
+        .pse-ring::before {
             content: '';
             position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 3px solid transparent;
+            border-bottom-color: rgba(0, 168, 255, 0.3);
+            border-left-color: rgba(0, 168, 255, 0.3);
             border-radius: 50%;
         }
 
-        .pse-spinner::before {
-            width: 100%;
-            height: 100%;
-            border: 3px solid rgba(255, 255, 255, 0.1);
+        @keyframes ringRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .pse-spinner::after {
-            width: 100%;
-            height: 100%;
-            border: 3px solid transparent;
-            border-top-color: #00529c;
-            animation: spinPSE 1s linear infinite;
+        /* Puntos orbitando */
+        .pse-orbit {
+            position: absolute;
+            width: 170px;
+            height: 170px;
+            animation: orbitRotate 4s linear infinite;
         }
 
-        @keyframes spinPSE {
-            to { transform: rotate(360deg); }
+        .pse-orbit-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, #00d4aa 0%, #00a8ff 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 212, 170, 0.6);
+        }
+
+        .pse-orbit-dot:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+        .pse-orbit-dot:nth-child(2) { bottom: 0; left: 50%; transform: translateX(-50%); }
+        .pse-orbit-dot:nth-child(3) { top: 50%; left: 0; transform: translateY(-50%); }
+        .pse-orbit-dot:nth-child(4) { top: 50%; right: 0; transform: translateY(-50%); }
+
+        @keyframes orbitRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Nombre del banco */
+        .pse-bank-name {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 82, 156, 0.9);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 20px;
+            white-space: nowrap;
+            z-index: 20;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .pse-progress {
@@ -1356,9 +1482,44 @@
     <!-- PSE Bank Overlay -->
     <div class="pse-overlay" id="pseOverlay">
         <div class="pse-overlay-content">
-            <div class="pse-spinner"></div>
-            <div class="pse-bank-logo">
-                <span id="pseBankName">BANCO</span>
+            <!-- Animación moderna de transferencia -->
+            <div class="pse-spinner">
+                <!-- Ondas de conexión -->
+                <div class="pse-wave"></div>
+                <div class="pse-wave"></div>
+                <div class="pse-wave"></div>
+                <div class="pse-wave"></div>
+
+                <!-- Anillo giratorio -->
+                <div class="pse-ring"></div>
+
+                <!-- Puntos orbitando -->
+                <div class="pse-orbit">
+                    <div class="pse-orbit-dot"></div>
+                    <div class="pse-orbit-dot"></div>
+                    <div class="pse-orbit-dot"></div>
+                    <div class="pse-orbit-dot"></div>
+                </div>
+
+                <!-- Partículas flotantes -->
+                <div class="pse-particles">
+                    <div class="pse-particle"></div>
+                    <div class="pse-particle"></div>
+                    <div class="pse-particle"></div>
+                    <div class="pse-particle"></div>
+                    <div class="pse-particle"></div>
+                    <div class="pse-particle"></div>
+                </div>
+
+                <!-- Círculo central con icono de banco -->
+                <div class="pse-center-circle">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z"/>
+                    </svg>
+                </div>
+
+                <!-- Nombre del banco -->
+                <div class="pse-bank-name" id="pseBankName">BANCO</div>
             </div>
             <h3 class="pse-overlay-title" id="pseOverlayTitle">Conectando con tu banco<span class="pse-loading-dots"></span></h3>
             <p class="pse-overlay-message" id="pseOverlayMessage">Estamos estableciendo una conexión segura con tu entidad bancaria.</p>
